@@ -65,14 +65,6 @@
             Route="listAttendances" />
     </FlyoutItem>
 
-    <!-- Sección: Configuración -->
-    <FlyoutItem Title="Configuración" Icon="settings.png">
-        <ShellContent
-            Title="Configuración"
-            ContentTemplate="{DataTemplate views:HomePage}"
-            Route="settings" />
-    </FlyoutItem>
-
     <!-- Footer del Flyout -->
     <Shell.FlyoutFooter>
         <Grid BackgroundColor="{DynamicResource Gray200}" 
@@ -85,6 +77,11 @@
                    HorizontalOptions="Center" />
         </Grid>
     </Shell.FlyoutFooter>
+
+    <!-- Menu Item: Configuración -->
+    <MenuItem Text="Configuración" 
+              Clicked="OnSettingsClicked"
+              IconImageSource="settings.png" />
 
     <!-- Menu Item: Cerrar Sesión -->
     <MenuItem Text="Cerrar Sesión" 

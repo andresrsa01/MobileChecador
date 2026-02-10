@@ -55,8 +55,8 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task NavigateToSettingsAsync()
+    private void NavigateToSettings()
     {
-        await _navigationService.NavigateToAsync("///settings");
+        AppInfo.ShowSettingsUI();
     }
 }

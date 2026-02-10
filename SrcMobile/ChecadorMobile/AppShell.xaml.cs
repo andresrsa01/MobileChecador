@@ -24,4 +24,9 @@ public partial class AppShell : Shell
             await GoToAsync("///login");
         }
     }
+
+    private void OnSettingsClicked(object sender, EventArgs e)
+    {
+        AppInfo.ShowSettingsUI();
+    }
 }
