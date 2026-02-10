@@ -12,4 +12,9 @@ public interface IDatabaseService
     Task<int> SaveUserAsync(User user);
     Task<List<User>> GetAllUsersAsync();
     Task<int> DeleteUserAsync(User user);
+    
+    // Geofence methods
+    Task<int> SaveGeofenceConfigAsync(GeofenceConfig geofenceConfig);
+    Task<GeofenceConfig?> GetGeofenceConfigByUserIdAsync(int userId);
+    Task<int> DeleteGeofenceConfigByUserIdAsync(int userId);
 }

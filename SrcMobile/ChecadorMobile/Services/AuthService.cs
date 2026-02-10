@@ -45,6 +45,13 @@ public class AuthService : IAuthService
                     await _databaseService.SaveUserAsync(_currentUser);
                     await _databaseService.UpdateLastLoginAsync(_currentUser.Id);
                     
+                    // Guardar geofence si viene en la respuesta
+                    if (response.GeofenceConfig != null)
+                    {
+                        response.GeofenceConfig.UserId = _currentUser.Id;
+                        await _databaseService.SaveGeofenceConfigAsync(response.GeofenceConfig);
+                    }
+                    
                     // Recargar usuario con LastLogin actualizado
                     _currentUser = await _databaseService.GetUserByUsernameAsync(username);
                 }
@@ -96,6 +103,10 @@ public class AuthService : IAuthService
         Preferences.Remove(AUTH_TOKEN_KEY);
         Preferences.Remove(USER_ID_KEY);
         Preferences.Remove(USER_DATA_KEY);
+        
+        // Opcional: Limpiar geofence al hacer logout
+        // if (_currentUser != null)
+        //     await _databaseService.DeleteGeofenceConfigByUserIdAsync(_currentUser.Id);
     }
 
     public bool IsAuthenticated()
@@ -179,5 +190,14 @@ public class AuthService : IAuthService
         {
             Preferences.Set(AUTH_TOKEN_KEY, token);
         }
+    }
+
+    public async Task<GeofenceConfig?> GetGeofenceConfigAsync()
+    {
+        var user = await GetCurrentUserAsync();
+        if (user == null)
+            return null;
+            
+        return await _databaseService.GetGeofenceConfigByUserIdAsync(user.Id);
     }
 }

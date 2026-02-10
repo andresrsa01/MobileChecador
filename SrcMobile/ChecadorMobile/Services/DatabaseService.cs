@@ -15,6 +15,7 @@ public class DatabaseService : IDatabaseService
         var dbPath = Path.Combine(FileSystem.AppDataDirectory, "mauiapp.db3");
         _database = new SQLiteAsyncConnection(dbPath);
         await _database.CreateTableAsync<User>();
+        await _database.CreateTableAsync<GeofenceConfig>();
         
         // Crear usuario demo si no existe
         await CreateDemoUserAsync();
@@ -106,5 +107,45 @@ public class DatabaseService : IDatabaseService
     {
         await InitAsync();
         return await _database!.DeleteAsync(user);
+    }
+
+    // Geofence methods
+    public async Task<int> SaveGeofenceConfigAsync(GeofenceConfig geofenceConfig)
+    {
+        await InitAsync();
+        
+        // Verificar si ya existe un geofence para este usuario
+        var existing = await GetGeofenceConfigByUserIdAsync(geofenceConfig.UserId);
+        
+        geofenceConfig.UpdatedAt = DateTime.UtcNow;
+        
+        if (existing != null)
+        {
+            geofenceConfig.Id = existing.Id;
+            return await _database!.UpdateAsync(geofenceConfig);
+        }
+        else
+        {
+            return await _database!.InsertAsync(geofenceConfig);
+        }
+    }
+
+    public async Task<GeofenceConfig?> GetGeofenceConfigByUserIdAsync(int userId)
+    {
+        await InitAsync();
+        return await _database!.Table<GeofenceConfig>()
+            .Where(g => g.UserId == userId)
+            .FirstOrDefaultAsync();
+    }
+
+    public async Task<int> DeleteGeofenceConfigByUserIdAsync(int userId)
+    {
+        await InitAsync();
+        var config = await GetGeofenceConfigByUserIdAsync(userId);
+        if (config != null)
+        {
+            return await _database!.DeleteAsync(config);
+        }
+        return 0;
     }
 }

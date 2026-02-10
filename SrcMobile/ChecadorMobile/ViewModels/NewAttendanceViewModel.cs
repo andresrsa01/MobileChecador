@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MauiAppChecador.Models;
 using MauiAppChecador.Services;
+using MauiAppChecador.Helpers;
 
 namespace MauiAppChecador.ViewModels;
 
@@ -139,7 +140,7 @@ public partial class NewAttendanceViewModel : ObservableObject
             Latitude = location.Latitude;
             Longitude = location.Longitude;
 
-            StatusMessage = "Enviando asistencia...";
+            StatusMessage = "Validando ubicación...";
 
             // Obtener usuario actual
             var currentUser = _authService.GetCurrentUser();
@@ -150,6 +151,47 @@ public partial class NewAttendanceViewModel : ObservableObject
                 await Application.Current?.MainPage?.DisplayAlert("Error", "No hay usuario autenticado", "OK")!;
                 return;
             }
+
+            // Obtener configuración del geofence desde SQLite (almacenada al hacer login)
+            var geofenceConfig = await _authService.GetGeofenceConfigAsync();
+
+            if (geofenceConfig == null)
+            {
+                StatusMessage = "?? No hay configuración de geofence";
+                await Application.Current?.MainPage?.DisplayAlert(
+                    "Error de Configuración",
+                    "No se encontró una ubicación permitida configurada para tu usuario. Intenta cerrar sesión y volver a iniciar sesión.",
+                    "OK")!;
+                return;
+            }
+
+            // Validar que el usuario esté dentro del geofence
+            bool isWithinGeofence = GeofenceHelper.IsWithinGeofence(
+                Latitude,
+                Longitude,
+                geofenceConfig.CenterLatitude,
+                geofenceConfig.CenterLongitude,
+                geofenceConfig.RadiusInMeters
+            );
+
+            if (!isWithinGeofence)
+            {
+                var distance = GeofenceHelper.CalculateDistance(
+                    Latitude,
+                    Longitude,
+                    geofenceConfig.CenterLatitude,
+                    geofenceConfig.CenterLongitude
+                );
+
+                StatusMessage = $"?? Fuera del área permitida ({distance:F0}m de distancia)";
+                await Application.Current?.MainPage?.DisplayAlert(
+                    "Ubicación No Válida",
+                    $"Debes estar dentro del área de {geofenceConfig.LocationName} (radio de {geofenceConfig.RadiusInMeters:F0}m) para registrar tu asistencia.\n\nDistancia actual: {distance:F0} metros.",
+                    "OK")!;
+                return;
+            }
+
+            StatusMessage = "Enviando asistencia...";
 
             // Crear request
             var request = new AttendanceRequest

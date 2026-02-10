@@ -10,4 +10,5 @@ public interface IAuthService
     User? GetCurrentUser();
     Task<User?> GetCurrentUserAsync();
     Task InitializeSessionAsync();
+    Task<GeofenceConfig?> GetGeofenceConfigAsync();
 }

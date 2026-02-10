@@ -6,4 +6,5 @@ public class LoginResponse
     public string Token { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;
     public User? User { get; set; }
+    public GeofenceConfig? GeofenceConfig { get; set; }
 }
