@@ -39,6 +39,52 @@
                     TextColor="{DynamicResource Gray900}"/>
             </Frame>
 
+            <!-- Alerta de permisos -->
+            <Frame
+                Padding="15"
+                CornerRadius="10"
+                BackgroundColor="#FFF3CD"
+                BorderColor="#FFC107"
+                IsVisible="{Binding HasLocationPermission, Converter={StaticResource InvertedBoolConverter}}"
+                HasShadow="False">
+                <VerticalStackLayout Spacing="10">
+                    <Label
+                        Text="⚠️ Permisos de Ubicación Requeridos"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        HorizontalTextAlignment="Center"
+                        TextColor="#856404"/>
+                    <Label
+                        Text="Para registrar tu asistencia, debes habilitar los permisos de ubicación. Al presionar el botón, se te solicitarán automáticamente."
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"
+                        TextColor="#856404"/>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Alerta de conexión a Internet -->
+            <Frame
+                Padding="15"
+                CornerRadius="10"
+                BackgroundColor="#F8D7DA"
+                BorderColor="#DC3545"
+                IsVisible="{Binding HasInternetConnection, Converter={StaticResource InvertedBoolConverter}}"
+                HasShadow="False">
+                <VerticalStackLayout Spacing="10">
+                    <Label
+                        Text="🌐 Sin Conexión a Internet"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        HorizontalTextAlignment="Center"
+                        TextColor="#721C24"/>
+                    <Label
+                        Text="Se requiere conexión a Internet para registrar tu asistencia. Por favor, verifica tu conexión WiFi o datos móviles."
+                        FontSize="14"
+                        HorizontalTextAlignment="Center"
+                        TextColor="#721C24"/>
+                </VerticalStackLayout>
+            </Frame>
+
             <!-- Información de ubicación -->
             <Grid
                 ColumnDefinitions="*,*"
