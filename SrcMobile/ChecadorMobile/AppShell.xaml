@@ -57,12 +57,12 @@
     <FlyoutItem Title="Nueva Asistencia" Icon="document.png">
         <ShellContent
             Title="Nueva Asistencia"
-            ContentTemplate="{DataTemplate views:HomePage}"
-            Route="newcarta" />
+            ContentTemplate="{DataTemplate views:NewAttendancePage}"
+            Route="newAttendance" />
         <ShellContent
             Title="Lista de Asistencias"
             ContentTemplate="{DataTemplate views:HomePage}"
-            Route="listcartas" />
+            Route="listAttendances" />
     </FlyoutItem>
 
     <!-- Sección: Configuración -->

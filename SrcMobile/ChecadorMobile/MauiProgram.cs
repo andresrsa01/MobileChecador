@@ -37,12 +37,14 @@ public static class MauiProgram
         builder.Services.AddTransient<MainViewModel>();
         builder.Services.AddTransient<HomeViewModel>();
         builder.Services.AddTransient<ProfileViewModel>();
+        builder.Services.AddTransient<NewAttendanceViewModel>();
 
         // Views (Transient)
         builder.Services.AddTransient<LoginPage>();
         builder.Services.AddTransient<MainPage>();
         builder.Services.AddTransient<HomePage>();
         builder.Services.AddTransient<ProfilePage>();
+        builder.Services.AddTransient<NewAttendancePage>();
 
         return builder.Build();
     }

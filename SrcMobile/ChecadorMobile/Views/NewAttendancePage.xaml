@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MauiAppChecador.ViewModels"
+             x:Class="MauiAppChecador.Views.NewAttendancePage"
+             x:DataType="viewmodels:NewAttendanceViewModel"
+             Title="Registrar Asistencia">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="20"
+            Spacing="20"
+            VerticalOptions="Center">
+
+            <!-- Icono -->
+            <Label
+                Text="📍"
+                FontSize="80"
+                HorizontalOptions="Center"
+                Margin="0,0,0,20"/>
+
+            <!-- Título -->
+            <Label
+                Text="Registro de Asistencia"
+                FontSize="28"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"/>
+
+            <!-- Mensaje de estado -->
+            <Frame
+                Padding="15"
+                CornerRadius="10"
+                BackgroundColor="{DynamicResource Gray100}"
+                HasShadow="False">
+                <Label
+                    Text="{Binding StatusMessage}"
+                    FontSize="16"
+                    HorizontalTextAlignment="Center"
+                    TextColor="{DynamicResource Gray900}"/>
+            </Frame>
+
+            <!-- Información de ubicación -->
+            <Grid
+                ColumnDefinitions="*,*"
+                RowDefinitions="Auto,Auto"
+                ColumnSpacing="10"
+                RowSpacing="5"
+                Margin="0,10,0,0">
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="Latitud:"
+                    FontAttributes="Bold"/>
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding Latitude, StringFormat='{0:F6}'}"/>
+
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="Longitud:"
+                    FontAttributes="Bold"/>
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding Longitude, StringFormat='{0:F6}'}"/>
+            </Grid>
+
+            <!-- Botón de registro -->
+            <Button
+                Text="Registrar Asistencia"
+                Command="{Binding RegisterAttendanceCommand}"
+                IsEnabled="{Binding IsLoading, Converter={StaticResource InvertedBoolConverter}}"
+                HeightRequest="60"
+                FontSize="18"
+                FontAttributes="Bold"
+                CornerRadius="10"
+                Margin="0,20,0,0"/>
+
+            <!-- Indicador de carga -->
+            <ActivityIndicator
+                IsRunning="{Binding IsLoading}"
+                IsVisible="{Binding IsLoading}"
+                Color="{DynamicResource Primary}"
+                HeightRequest="40"
+                WidthRequest="40"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

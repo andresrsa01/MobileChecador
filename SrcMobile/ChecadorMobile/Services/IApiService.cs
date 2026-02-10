@@ -13,4 +13,7 @@ public interface IApiService
 
     [Get("/api/users")]
     Task<List<User>> GetUsersAsync();
+
+    [Post("/api/attendance/register")]
+    Task<AttendanceResponse> RegisterAttendanceAsync([Body] AttendanceRequest request);
 }
