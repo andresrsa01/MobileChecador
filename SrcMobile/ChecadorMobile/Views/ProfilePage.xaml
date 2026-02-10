@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MauiAppChecador.ViewModels"
+             x:Class="MauiAppChecador.Views.ProfilePage"
+             x:DataType="viewmodels:ProfileViewModel"
+             Title="Mi Perfil">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20">
+            
+            <!-- Avatar Section -->
+            <Frame BackgroundColor="{DynamicResource Primary}"
+                   CornerRadius="20"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="&#x1F464;"
+                           FontSize="60"
+                           HorizontalOptions="Center" />
+                    <Label Text="{Binding FullName}"
+                           FontSize="24"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center" />
+                    <Label Text="{Binding UserProfileName, StringFormat='@{0}'}"
+                           FontSize="16"
+                           TextColor="White"
+                           Opacity="0.8"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- User Information Card -->
+            <Frame BackgroundColor="#F5F5F5"
+                   CornerRadius="15"
+                   HasShadow="True"
+                   Padding="20">
+                <VerticalStackLayout Spacing="15">
+                    <Label Text="Informacion del Usuario"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{DynamicResource Primary}" />
+
+                    <!-- Email -->
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Text="&#x1F4E7;" FontSize="20" Grid.Column="0" />
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Email"
+                                   FontSize="12"
+                                   TextColor="{DynamicResource Gray600}" />
+                            <Label Text="{Binding UserEmail}"
+                                   FontSize="16" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <BoxView HeightRequest="1" 
+                             Color="{DynamicResource Gray200}" />
+
+                    <!-- Created At -->
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Text="&#x1F4C5;" FontSize="20" Grid.Column="0" />
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Fecha de Registro"
+                                   FontSize="12"
+                                   TextColor="{DynamicResource Gray600}" />
+                            <Label Text="{Binding CreatedAt}"
+                                   FontSize="16" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <BoxView HeightRequest="1" 
+                             Color="{DynamicResource Gray200}" />
+
+                    <!-- Last Login -->
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Text="&#x1F550;" FontSize="20" Grid.Column="0" />
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Ultimo Acceso"
+                                   FontSize="12"
+                                   TextColor="{DynamicResource Gray600}" />
+                            <Label Text="{Binding LastLogin}"
+                                   FontSize="16" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <BoxView HeightRequest="1" 
+                             Color="{DynamicResource Gray200}" />
+
+                    <!-- Status -->
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                        <Label Text="&#x2705;" FontSize="20" Grid.Column="0" />
+                        <VerticalStackLayout Grid.Column="1">
+                            <Label Text="Estado"
+                                   FontSize="12"
+                                   TextColor="{DynamicResource Gray600}" />
+                            <Label Text="{Binding IsActive, Converter={StaticResource BoolToActiveConverter}}"
+                                   FontSize="16" />
+                        </VerticalStackLayout>
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Logout Button -->
+            <Button Text="Cerrar Sesion"
+                    Command="{Binding LogoutCommand}"
+                    BackgroundColor="#DC3545"
+                    TextColor="White"
+                    CornerRadius="10"
+                    HeightRequest="50"
+                    FontAttributes="Bold" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MauiAppChecador.ViewModels"
+             x:Class="MauiAppChecador.Views.LoginPage"
+             x:DataType="viewmodels:LoginViewModel"
+             Title="Iniciar Sesi�n"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30"
+            VerticalOptions="Center">
+
+            <Label
+                Text="Bienvenido"
+                FontSize="32"
+                FontAttributes="Bold"
+                HorizontalOptions="Center"
+                Margin="0,0,0,20"/>
+
+            <Frame
+                Padding="20"
+                CornerRadius="10"
+                HasShadow="True">
+                <VerticalStackLayout Spacing="15">
+
+                    <Label
+                        Text="Usuario"
+                        FontSize="16"
+                        FontAttributes="Bold"/>
+
+                    <Entry
+                        Text="{Binding Username}"
+                        Placeholder="Ingrese su usuario"
+                        ClearButtonVisibility="WhileEditing"/>
+
+                    <Label
+                        Text="Contrase�a"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        Margin="0,10,0,0"/>
+
+                    <Entry
+                        Text="{Binding Password}"
+                        Placeholder="Ingrese su contrase�a"
+                        IsPassword="True"
+                        ClearButtonVisibility="WhileEditing"/>
+
+                    <Label
+                        Text="{Binding ErrorMessage}"
+                        TextColor="Red"
+                        IsVisible="{Binding ErrorMessage, Converter={StaticResource IsNotNullOrEmptyConverter}}"
+                        Margin="0,10,0,0"/>
+
+                    <Button
+                        Text="Iniciar Sesion"
+                        Command="{Binding LoginCommand}"
+                        IsEnabled="{Binding IsBusy, Converter={StaticResource InvertedBoolConverter}}"
+                        Margin="0,20,0,0"
+                        HeightRequest="50"/>
+
+                    <ActivityIndicator
+                        IsRunning="{Binding IsBusy}"
+                        IsVisible="{Binding IsBusy}"
+                        Color="{StaticResource Primary}"
+                        Margin="0,10,0,0"/>
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <Label
+                Text="¿Olvidó su contraseña?"
+                TextColor="{StaticResource Primary}"
+                HorizontalOptions="Center"
+                Margin="0,20,0,0">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer/>
+                </Label.GestureRecognizers>
+            </Label>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

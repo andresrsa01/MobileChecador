@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:MauiAppChecador.ViewModels"
+             x:Class="MauiAppChecador.Views.HomePage"
+             x:DataType="viewmodels:HomeViewModel"
+             Title="{Binding Title}">
+
+    <Grid RowDefinitions="Auto,*,Auto"
+          Padding="20">
+
+        <Label
+            Grid.Row="0"
+            Text="P�gina Principal"
+            FontSize="28"
+            FontAttributes="Bold"
+            Margin="0,0,0,20"
+            HorizontalOptions="Center"/>
+
+        <RefreshView
+            Grid.Row="1"
+            Command="{Binding LoadDataCommand}"
+            IsRefreshing="{Binding IsBusy}">
+            
+            <CollectionView
+                ItemsSource="{Binding Items}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame
+                            Padding="15"
+                            Margin="0,5"
+                            CornerRadius="10"
+                            HasShadow="True">
+                            <Label
+                                Text="{Binding .}"
+                                FontSize="16"/>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <VerticalStackLayout
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center">
+                        <Label
+                            Text="No hay elementos para mostrar"
+                            FontSize="18"
+                            TextColor="Gray"/>
+                    </VerticalStackLayout>
+                </CollectionView.EmptyView>
+            </CollectionView>
+            
+        </RefreshView>
+
+        <Button
+            Grid.Row="2"
+            Text="Cargar Datos"
+            Command="{Binding LoadDataCommand}"
+            Margin="0,10,0,0"
+            HorizontalOptions="Fill"/>
+
+    </Grid>
+
+</ContentPage>

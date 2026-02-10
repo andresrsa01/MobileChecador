@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MauiAppChecador.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:MauiAppChecador.Views"
+    FlyoutBehavior="Flyout"
+    Title="Asistencias">
+
+    <!-- Header del Flyout -->
+    <Shell.FlyoutHeader>
+        <Grid BackgroundColor="{DynamicResource Primary}" 
+              HeightRequest="150" 
+              Padding="20">
+            <VerticalStackLayout VerticalOptions="Center" Spacing="5">
+                <Label Text="📝"
+                       FontSize="48"
+                       HorizontalOptions="Center" />
+                <Label Text="Asistencias"
+                       FontSize="18"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center" />
+                <Label Text="Sistema de Gestión"
+                       FontSize="14"
+                       TextColor="White"
+                       Opacity="0.8"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <!-- Página de Login (sin flyout) -->
+    <ShellContent
+        Title="Login"
+        ContentTemplate="{DataTemplate views:LoginPage}"
+        Route="login"
+        FlyoutItemIsVisible="False" />
+
+    <!-- Sección: Inicio -->
+    <FlyoutItem Title="Inicio" Icon="home.png">
+        <ShellContent
+            Title="Inicio"
+            ContentTemplate="{DataTemplate views:MainPage}"
+            Route="main" />
+    </FlyoutItem>
+
+    <!-- Sección: Mi Perfil -->
+    <FlyoutItem Title="Mi Perfil" Icon="user.png">
+        <ShellContent
+            Title="Mi Perfil"
+            ContentTemplate="{DataTemplate views:ProfilePage}"
+            Route="profile" />
+    </FlyoutItem>
+
+    <!-- Sección: Cartas Porte -->
+    <FlyoutItem Title="Nueva Asistencia" Icon="document.png">
+        <ShellContent
+            Title="Nueva Asistencia"
+            ContentTemplate="{DataTemplate views:HomePage}"
+            Route="newcarta" />
+        <ShellContent
+            Title="Lista de Asistencias"
+            ContentTemplate="{DataTemplate views:HomePage}"
+            Route="listcartas" />
+    </FlyoutItem>
+
+    <!-- Sección: Configuración -->
+    <FlyoutItem Title="Configuración" Icon="settings.png">
+        <ShellContent
+            Title="Configuración"
+            ContentTemplate="{DataTemplate views:HomePage}"
+            Route="settings" />
+    </FlyoutItem>
+
+    <!-- Footer del Flyout -->
+    <Shell.FlyoutFooter>
+        <Grid BackgroundColor="{DynamicResource Gray200}" 
+              HeightRequest="50" 
+              Padding="10">
+            <Label Text="Versión 1.0.0"
+                   FontSize="12"
+                   TextColor="{DynamicResource Gray600}"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center" />
+        </Grid>
+    </Shell.FlyoutFooter>
+
+    <!-- Menu Item: Cerrar Sesión -->
+    <MenuItem Text="Cerrar Sesión" 
+              Clicked="OnLogoutClicked"
+              IconImageSource="logout.png" />
+
+</Shell>
