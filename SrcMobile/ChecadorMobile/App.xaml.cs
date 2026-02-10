@@ -27,6 +27,9 @@ public partial class App : Application
     private async void InitializeDatabaseAsync()
     {
         await _databaseService.InitializeDatabaseAsync();
+        
+        // Inicializar sesión desde datos persistidos
+        await _authService.InitializeSessionAsync();
 
         // Verificar si el usuario ya está autenticado
         if (_authService.IsAuthenticated())

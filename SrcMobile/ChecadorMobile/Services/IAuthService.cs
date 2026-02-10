@@ -8,4 +8,6 @@ public interface IAuthService
     void Logout();
     bool IsAuthenticated();
     User? GetCurrentUser();
+    Task<User?> GetCurrentUserAsync();
+    Task InitializeSessionAsync();
 }

@@ -5,6 +5,7 @@ namespace MauiAppChecador.Services;
 public interface IDatabaseService
 {
     Task InitializeDatabaseAsync();
+    Task<User?> GetUserByIdAsync(int userId);
     Task<User?> GetUserByUsernameAsync(string username);
     Task<bool> ValidateCredentialsAsync(string username, string password);
     Task UpdateLastLoginAsync(int userId);

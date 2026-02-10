@@ -33,12 +33,12 @@ public partial class ProfileViewModel : ObservableObject
     public ProfileViewModel(IAuthService authService)
     {
         _authService = authService;
-        LoadUserData();
+        _ = LoadUserDataAsync();
     }
 
-    private void LoadUserData()
+    private async Task LoadUserDataAsync()
     {
-        CurrentUser = _authService.GetCurrentUser();
+        CurrentUser = await _authService.GetCurrentUserAsync();
         
         if (CurrentUser != null)
         {
@@ -49,6 +49,12 @@ public partial class ProfileViewModel : ObservableObject
             LastLogin = CurrentUser.LastLogin?.ToString("dd/MM/yyyy HH:mm") ?? "N/A";
             IsActive = CurrentUser.IsActive;
         }
+    }
+
+    [RelayCommand]
+    private async Task RefreshProfile()
+    {
+        await LoadUserDataAsync();
     }
 
     [RelayCommand]

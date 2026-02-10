@@ -45,6 +45,14 @@ public class DatabaseService : IDatabaseService
         await InitAsync();
     }
 
+    public async Task<User?> GetUserByIdAsync(int userId)
+    {
+        await InitAsync();
+        return await _database!.Table<User>()
+            .Where(u => u.Id == userId)
+            .FirstOrDefaultAsync();
+    }
+
     public async Task<User?> GetUserByUsernameAsync(string username)
     {
         await InitAsync();
