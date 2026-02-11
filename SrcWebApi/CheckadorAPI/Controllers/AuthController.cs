@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CheckadorAPI.Controllers;
 
+/// <summary>
+/// Controlador de autenticación y autorización
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
@@ -24,6 +27,28 @@ public class AuthController : ControllerBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// Autentica un usuario y devuelve un token JWT
+    /// </summary>
+    /// <param name="request">Credenciales de inicio de sesión (usuario y contraseña)</param>
+    /// <returns>Token JWT y datos del usuario si la autenticación es exitosa</returns>
+    /// <response code="200">Login exitoso o credenciales inválidas</response>
+    /// <response code="400">Datos de entrada inválidos</response>
+    /// <response code="500">Error interno del servidor</response>
+    /// <remarks>
+    /// Ejemplo de request:
+    /// 
+    ///     POST /api/Auth/login
+    ///     {
+    ///        "username": "admin",
+    ///        "password": "Admin123!"
+    ///     }
+    /// 
+    /// Este endpoint valida las credenciales del usuario y devuelve:
+    /// - Token JWT para autenticación en endpoints protegidos
+    /// - Información del usuario (sin contraseña)
+    /// - Configuración de geofence si existe
+    /// </remarks>
     [HttpPost("login")]
     public async Task<ActionResult<LoginResponse>> Login([FromBody] LoginRequest request)
     {

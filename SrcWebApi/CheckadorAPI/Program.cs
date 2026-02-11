@@ -1,6 +1,7 @@
 using System.Text;
 using CheckadorAPI.Data;
 using CheckadorAPI.Helpers;
+using CheckadorAPI.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -60,42 +61,8 @@ builder.Services.AddCors(options =>
 // Agregar controladores
 builder.Services.AddControllers();
 
-// Configurar Swagger/OpenAPI
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.SwaggerDoc("v1", new OpenApiInfo
-    {
-        Title = "Checador API",
-        Version = "v1",
-        Description = "API para el sistema de checador de asistencias"
-    });
-
-    // Configurar JWT en Swagger
-    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        Description = "JWT Authorization header usando el esquema Bearer. Ejemplo: \"Authorization: Bearer {token}\"",
-        Name = "Authorization",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.ApiKey,
-        Scheme = "Bearer"
-    });
-
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
+// Configurar Swagger/OpenAPI con mejoras visuales y funcionales
+builder.Services.AddSwaggerConfiguration();
 
 var app = builder.Build();
 
@@ -109,15 +76,11 @@ if (app.Environment.IsDevelopment())
     }
 }
 
+// Habilitar archivos estáticos para CSS personalizado de Swagger
+app.UseStaticFiles();
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Checador API v1");
-    });
-}
+app.UseSwaggerConfiguration(app.Environment);
 
 app.UseHttpsRedirection();
 

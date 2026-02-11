@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CheckadorAPI.Controllers;
 
+/// <summary>
+/// Controlador para la gestión de usuarios del sistema
+/// </summary>
 [ApiController]
 [Route("api/[controller]")]
 [Authorize]
@@ -23,6 +26,20 @@ public class UsersController : ControllerBase
         _logger = logger;
     }
 
+    /// <summary>
+    /// Obtiene la lista de todos los usuarios del sistema
+    /// </summary>
+    /// <returns>Lista de usuarios sin información sensible</returns>
+    /// <response code="200">Lista de usuarios obtenida exitosamente</response>
+    /// <response code="401">Token JWT no válido o ausente</response>
+    /// <response code="403">Usuario sin permisos de Administrador</response>
+    /// <response code="500">Error interno del servidor</response>
+    /// <remarks>
+    /// **Requiere rol:** Administrador
+    /// 
+    /// Este endpoint devuelve todos los usuarios registrados en el sistema,
+    /// excluyendo información sensible como contraseñas.
+    /// </remarks>
     [HttpGet]
     [Authorize(Roles = "Administrador")]
     public async Task<ActionResult<IEnumerable<UserDto>>> GetUsers()
