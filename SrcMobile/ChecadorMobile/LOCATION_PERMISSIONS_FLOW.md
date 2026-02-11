@@ -1,42 +1,42 @@
-# Flujo de Permisos de Ubicación
+# Flujo de Permisos de Ubicacion
 
 ## Resumen
-Se implementó un sistema completo de verificación y solicitud de permisos de ubicación en múltiples puntos de la aplicación para garantizar una experiencia de usuario óptima.
+Se implemento un sistema completo de verificacion y solicitud de permisos de ubicacion en multiples puntos de la aplicacion para garantizar una experiencia de usuario optima.
 
-## Puntos de Verificación
+## Puntos de Verificacion
 
-### 1?? Después del Login (LoginViewModel)
-**Cuándo**: Inmediatamente después de un login exitoso
+### 1?? Despues del Login (LoginViewModel)
+**Cuando**: Inmediatamente despues de un login exitoso
 
 **Flujo**:
 ```
 Usuario hace login exitosamente
     ?
-Se navega al AppShell (página principal)
+Se navega al AppShell (pagina principal)
     ?
-Se verifica el estado de permisos de ubicación
+Se verifica el estado de permisos de ubicacion
     ?
 ¿Permisos otorgados?
     ?
-    ?? SÍ ? No se muestra nada (flujo continúa)
+    ?? Si ? No se muestra nada (flujo continua)
     ?
-    ?? NO ? Se muestra diálogo: "¿Deseas habilitar permisos ahora?"
+    ?? NO ? Se muestra dialogo: "¿Deseas habilitar permisos ahora?"
             ?
-            ?? Usuario elige "Sí"
+            ?? Usuario elige "Si"
             ?   ?
             ?   Se solicitan permisos al sistema
             ?   ?
-            ?   ?? Otorgados ? Mensaje de confirmación
-            ?   ?? Denegados (iOS) ? Instrucciones para ir a Configuración
-            ?   ?? Denegados (Android) ? Mensaje de cómo habilitarlos
+            ?   ?? Otorgados ? Mensaje de confirmacion
+            ?   ?? Denegados (iOS) ? Instrucciones para ir a Configuracion
+            ?   ?? Denegados (Android) ? Mensaje de como habilitarlos
             ?
-            ?? Usuario elige "Más tarde"
+            ?? Usuario elige "Mas tarde"
                 ?
                 Mensaje recordatorio
 ```
 
-### 2?? En la Página de Registro de Asistencia (NewAttendanceViewModel)
-**Cuándo**: Al abrir la página (`OnAppearing`)
+### 2?? En la Pagina de Registro de Asistencia (NewAttendanceViewModel)
+**Cuando**: Al abrir la pagina (`OnAppearing`)
 
 **Flujo**:
 ```
@@ -48,31 +48,31 @@ CheckLocationPermissionAsync()
     ?
 ¿Permisos otorgados?
     ?
-    ?? SÍ ? StatusMessage = "Presiona el botón..."
+    ?? Si ? StatusMessage = "Presiona el boton..."
     ?        + Alerta amarilla oculta
     ?
     ?? NO ? StatusMessage = "?? Se requieren permisos..."
             + Alerta amarilla visible
 ```
 
-### 3?? Al Registrar Asistencia (Botón)
-**Cuándo**: Usuario presiona "Registrar Asistencia"
+### 3?? Al Registrar Asistencia (Boton)
+**Cuando**: Usuario presiona "Registrar Asistencia"
 
 **Flujo**:
 ```
-Usuario presiona botón
+Usuario presiona boton
     ?
-Verificar conexión a Internet
+Verificar conexion a Internet
     ?
-¿Hay conexión?
+¿Hay conexion?
     ?
     ?? NO ? Mostrar alerta y detener
     ?
-    ?? SÍ ? RequestLocationPermissionAsync()
+    ?? Si ? RequestLocationPermissionAsync()
             ?
             ¿Permisos otorgados?
             ?
-            ?? SÍ ? Continuar con registro
+            ?? Si ? Continuar con registro
             ?
             ?? NO ? Solicitar permisos
                     ?
@@ -84,63 +84,63 @@ Verificar conexión a Internet
 ## Mensajes y Alertas
 
 ### Post-Login
-| Escenario | Título | Mensaje | Botones |
+| Escenario | Titulo | Mensaje | Botones |
 |-----------|--------|---------|---------|
-| Sin permisos | "Permisos de Ubicación" | "La aplicación necesita acceso a tu ubicación para registrar asistencias. ¿Deseas habilitar los permisos ahora?" | "Sí" / "Más tarde" |
-| Permisos otorgados | "Permisos Otorgados" | "Los permisos de ubicación han sido habilitados correctamente." | "OK" |
-| Permisos denegados (iOS) | "Permisos Denegados" | "Para habilitar los permisos de ubicación, ve a: Configuracion > MobileChecador > Ubicación" | "Entendido" |
-| Permisos denegados (Android) | "Permisos Denegados" | "Los permisos de ubicación fueron denegados. Puedes habilitarlos más tarde en la configuración de tu dispositivo." | "OK" |
-| Más tarde | "Recordatorio" | "Recuerda que necesitarás habilitar los permisos de ubicación para poder registrar tu asistencia." | "OK" |
+| Sin permisos | "Permisos de Ubicacion" | "La aplicacion necesita acceso a tu ubicacion para registrar asistencias. ¿Deseas habilitar los permisos ahora?" | "Si" / "Mas tarde" |
+| Permisos otorgados | "Permisos Otorgados" | "Los permisos de ubicacion han sido habilitados correctamente." | "OK" |
+| Permisos denegados (iOS) | "Permisos Denegados" | "Para habilitar los permisos de ubicacion, ve a: Configuracion > MobileChecador > Ubicacion" | "Entendido" |
+| Permisos denegados (Android) | "Permisos Denegados" | "Los permisos de ubicacion fueron denegados. Puedes habilitarlos mas tarde en la configuracion de tu dispositivo." | "OK" |
+| Mas tarde | "Recordatorio" | "Recuerda que necesitaras habilitar los permisos de ubicacion para poder registrar tu asistencia." | "OK" |
 
-### En Página de Registro
+### En Pagina de Registro
 | Escenario | Elemento UI | Color | Texto |
 |-----------|-------------|-------|-------|
-| Sin permisos | Frame alerta | Amarillo (#FFF3CD) | "?? Permisos de Ubicación Requeridos" |
-| Sin Internet | Frame alerta | Rojo (#F8D7DA) | "?? Sin Conexión a Internet" |
-| Con permisos | StatusMessage | Gris | "Presiona el botón para registrar tu asistencia" |
-| Sin permisos | StatusMessage | - | "?? Se requieren permisos de ubicación para registrar asistencia" |
+| Sin permisos | Frame alerta | Amarillo (#FFF3CD) | "?? Permisos de Ubicacion Requeridos" |
+| Sin Internet | Frame alerta | Rojo (#F8D7DA) | "?? Sin Conexion a Internet" |
+| Con permisos | StatusMessage | Gris | "Presiona el boton para registrar tu asistencia" |
+| Sin permisos | StatusMessage | - | "?? Se requieren permisos de ubicacion para registrar asistencia" |
 
 ### Al Registrar
-| Escenario | Título | Mensaje |
+| Escenario | Titulo | Mensaje |
 |-----------|--------|---------|
-| Sin conexión | "Sin Conexión" | "No hay conexión a Internet. Por favor, verifica tu conexión e intenta nuevamente." |
-| Sin permisos | "Permisos Requeridos" | "Para registrar tu asistencia, necesitas habilitar los permisos de ubicación en la configuración de tu dispositivo." |
-| GPS desactivado | "Error de Ubicación" | "No se pudo obtener tu ubicación actual. Verifica que el GPS esté activado." |
-| iOS permisos denegados | "Permisos de Ubicación" | "Los permisos de ubicación están deshabilitados. Por favor, ve a Configuración > MobileChecador > Ubicación y habilítalos." |
+| Sin conexion | "Sin Conexion" | "No hay conexion a Internet. Por favor, verifica tu conexion e intenta nuevamente." |
+| Sin permisos | "Permisos Requeridos" | "Para registrar tu asistencia, necesitas habilitar los permisos de ubicacion en la configuracion de tu dispositivo." |
+| GPS desactivado | "Error de Ubicacion" | "No se pudo obtener tu ubicacion actual. Verifica que el GPS este activado." |
+| iOS permisos denegados | "Permisos de Ubicacion" | "Los permisos de ubicacion estan deshabilitados. Por favor, ve a Configuracion > MobileChecador > Ubicacion y habilitalos." |
 
 ## Ventajas del Flujo Implementado
 
 ### ? Experiencia de Usuario
-- **Proactivo**: Solicita permisos inmediatamente después del login
-- **No intrusivo**: Opción "Más tarde" para no interrumpir
-- **Informativo**: Mensajes claros y específicos por plataforma
-- **Visual**: Alertas de colores para identificar rápidamente problemas
+- **Proactivo**: Solicita permisos inmediatamente despues del login
+- **No intrusivo**: Opcion "Mas tarde" para no interrumpir
+- **Informativo**: Mensajes claros y especificos por plataforma
+- **Visual**: Alertas de colores para identificar rapidamente problemas
 
 ### ? Robustez
-- **Múltiples verificaciones**: En login, al abrir página, y al registrar
+- **Multiples verificaciones**: En login, al abrir pagina, y al registrar
 - **Manejo de errores**: Try-catch para evitar crashes
-- **Tiempo real**: Actualización automática del estado de permisos
+- **Tiempo real**: Actualizacion automatica del estado de permisos
 
-### ? Plataforma Específica
-- **iOS**: Detecta permisos previamente denegados e instruye ir a Configuración
-- **Android**: Permite solicitar permisos múltiples veces
-- **Cross-platform**: Usa APIs de .NET MAUI para máxima compatibilidad
+### ? Plataforma Especifica
+- **iOS**: Detecta permisos previamente denegados e instruye ir a Configuracion
+- **Android**: Permite solicitar permisos multiples veces
+- **Cross-platform**: Usa APIs de .NET MAUI para maxima compatibilidad
 
 ## Archivos Modificados
 
 1. **ViewModels/LoginViewModel.cs**
-   - Método `CheckLocationPermissionsAfterLoginAsync()` agregado
-   - Se llama después de login exitoso
+   - Metodo `CheckLocationPermissionsAfterLoginAsync()` agregado
+   - Se llama despues de login exitoso
 
 2. **ViewModels/NewAttendanceViewModel.cs**
    - Propiedad `HasLocationPermission` observable
-   - Método `InitializeAsync()` para verificación inicial
-   - Método `RequestLocationPermissionAsync()` mejorado
+   - Metodo `InitializeAsync()` para verificacion inicial
+   - Metodo `RequestLocationPermissionAsync()` mejorado
    - Alertas visuales sincronizadas con propiedades
 
 3. **Views/NewAttendancePage.xaml**
    - Frame amarillo para alertas de permisos
-   - Frame rojo para alertas de conexión
+   - Frame rojo para alertas de conexion
    - Bindings a propiedades observables
 
 4. **Views/NewAttendancePage.xaml.cs**
@@ -151,27 +151,27 @@ Verificar conexión a Internet
 ### Escenarios de Prueba
 
 1. **Login sin permisos previos**
-   - Verificar que aparezca diálogo después del login
-   - Probar "Sí" y verificar solicitud de permisos
-   - Probar "Más tarde" y verificar mensaje recordatorio
+   - Verificar que aparezca dialogo despues del login
+   - Probar "Si" y verificar solicitud de permisos
+   - Probar "Mas tarde" y verificar mensaje recordatorio
 
 2. **Login con permisos otorgados**
-   - Verificar que NO aparezca ningún diálogo
+   - Verificar que NO aparezca ningun dialogo
    - Flujo debe ser fluido
 
-3. **Abrir página de registro**
+3. **Abrir pagina de registro**
    - Sin permisos: Verificar alerta amarilla
    - Con permisos: Verificar sin alertas
 
 4. **Registrar asistencia**
    - Sin permisos: Verificar solicitud
-   - Sin Internet: Verificar detención del proceso
+   - Sin Internet: Verificar detencion del proceso
    - Con todo correcto: Verificar registro exitoso
 
 5. **iOS - Permisos denegados previamente**
-   - Verificar mensaje específico de iOS
-   - Verificar instrucciones de Configuración
+   - Verificar mensaje especifico de iOS
+   - Verificar instrucciones de Configuracion
 
-6. **Android - Solicitud múltiple**
-   - Verificar que se puede solicitar más de una vez
+6. **Android - Solicitud multiple**
+   - Verificar que se puede solicitar mas de una vez
    - Verificar mensaje apropiado al denegar

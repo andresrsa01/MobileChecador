@@ -1,29 +1,29 @@
-# Implementación de Validación de Geofence
+# Implementacion de Validacion de Geofence
 
-## Descripción General
+## Descripcion General
 
-La validación de geofence ahora se obtiene desde el backend durante el proceso de login y se almacena localmente en SQLite. Esto permite:
+La validacion de geofence ahora se obtiene desde el backend durante el proceso de login y se almacena localmente en SQLite. Esto permite:
 - ? Reducir llamadas a la API
-- ? Validación offline del geofence
+- ? Validacion offline del geofence
 - ? Mejor rendimiento en el registro de asistencia
-- ? Sincronización automática al iniciar sesión
+- ? Sincronizacion automatica al iniciar sesion
 
 ## Archivos Creados
 
 ### 1. **Models\GeofenceConfig.cs**
-Define la configuración del geofence almacenada en SQLite:
-- `Id`: Identificador único (PrimaryKey, AutoIncrement)
+Define la configuracion del geofence almacenada en SQLite:
+- `Id`: Identificador unico (PrimaryKey, AutoIncrement)
 - `UserId`: ID del usuario al que pertenece el geofence
 - `CenterLatitude`: Latitud del centro del geofence
 - `CenterLongitude`: Longitud del centro del geofence
-- `RadiusInMeters`: Radio del área permitida en metros
-- `LocationName`: Nombre descriptivo de la ubicación
-- `UpdatedAt`: Fecha de última actualización
+- `RadiusInMeters`: Radio del area permitida en metros
+- `LocationName`: Nombre descriptivo de la ubicacion
+- `UpdatedAt`: Fecha de ultima actualizacion
 
 ### 2. **Helpers\GeofenceHelper.cs**
-Utilidades para cálculos de geofence:
-- `CalculateDistance()`: Calcula la distancia entre dos puntos GPS usando la fórmula de Haversine
-- `IsWithinGeofence()`: Verifica si una ubicación está dentro del radio permitido
+Utilidades para calculos de geofence:
+- `CalculateDistance()`: Calcula la distancia entre dos puntos GPS usando la formula de Haversine
+- `IsWithinGeofence()`: Verifica si una ubicacion esta dentro del radio permitido
 
 ## Archivos Modificados
 
@@ -31,7 +31,7 @@ Utilidades para cálculos de geofence:
 Agregado campo `GeofenceConfig?` para recibir el geofence desde el backend al hacer login.
 
 ### 2. **Services\IDatabaseService.cs**
-Agregados métodos para gestionar geofence en SQLite:
+Agregados metodos para gestionar geofence en SQLite:
 ```csharp
 Task<int> SaveGeofenceConfigAsync(GeofenceConfig geofenceConfig);
 Task<GeofenceConfig?> GetGeofenceConfigByUserIdAsync(int userId);
@@ -39,11 +39,11 @@ Task<int> DeleteGeofenceConfigByUserIdAsync(int userId);
 ```
 
 ### 3. **Services\DatabaseService.cs**
-- Creación de tabla `GeofenceConfig` en el método `InitAsync()`
-- Implementación de métodos para CRUD de geofence
+- Creacion de tabla `GeofenceConfig` en el metodo `InitAsync()`
+- Implementacion de metodos para CRUD de geofence
 
 ### 4. **Services\IAuthService.cs**
-Agregado método:
+Agregado metodo:
 ```csharp
 Task<GeofenceConfig?> GetGeofenceConfigAsync();
 ```
@@ -56,31 +56,31 @@ Task<GeofenceConfig?> GetGeofenceConfigAsync();
 Modificado para:
 - ? Ya NO consulta el geofence desde la API
 - ? Consulta el geofence desde SQLite (almacenado en el login)
-- ? Validar que la ubicación actual esté dentro del geofence
-- ? Mostrar la distancia si el usuario está fuera del área permitida
+- ? Validar que la ubicacion actual este dentro del geofence
+- ? Mostrar la distancia si el usuario esta fuera del area permitida
 - ? Funciona offline una vez que se tiene el geofence almacenado
 
-## Flujo de Validación
+## Flujo de Validacion
 
 ### Al Hacer Login:
 1. Usuario ingresa credenciales
-2. Se envía request al backend con usuario y contraseña
+2. Se envia request al backend con usuario y contraseña
 3. El backend responde con `LoginResponse` que incluye:
-   - Token de autenticación
+   - Token de autenticacion
    - Datos del usuario
-   - **Configuración del geofence (nuevo)**
+   - **Configuracion del geofence (nuevo)**
 4. La app guarda el geofence en SQLite
 5. Usuario queda autenticado con geofence configurado
 
 ### Al Registrar Asistencia:
-1. **Obtener ubicación actual** del usuario
+1. **Obtener ubicacion actual** del usuario
 2. **Consultar geofence desde SQLite** (no hace llamada al backend)
-3. **Calcular distancia** entre la ubicación actual y el centro del geofence
-4. **Validar si está dentro del radio** permitido
-5. Si está fuera:
+3. **Calcular distancia** entre la ubicacion actual y el centro del geofence
+4. **Validar si esta dentro del radio** permitido
+5. Si esta fuera:
    - Mostrar mensaje con la distancia actual
    - Bloquear el registro de asistencia
-6. Si está dentro:
+6. Si esta dentro:
    - Continuar con el registro normal
 
 ## Requisitos del Backend
@@ -99,7 +99,7 @@ Para que la respuesta incluya el geofence en el JSON:
   "user": {
     "id": 1,
     "username": "jperez",
-    "fullName": "Juan Pérez",
+    "fullName": "Juan Perez",
     "email": "jperez@ejemplo.com",
     "isActive": true
   },
@@ -134,28 +134,28 @@ CREATE TABLE GeofenceConfig (
 );
 ```
 
-## Configuración Recomendada
+## Configuracion Recomendada
 
-- **Radio típico para oficinas**: 50-100 metros
+- **Radio tipico para oficinas**: 50-100 metros
 - **Radio para obras/proyectos**: 100-500 metros
-- **Precisión GPS**: El GPS puede tener variación de ±10-30 metros
+- **Precision GPS**: El GPS puede tener variacion de ±10-30 metros
 
 ## Mensajes de Error
 
-- **"Ubicación No Válida"**: El usuario está fuera del área permitida
-- **"Error de Configuración"**: No hay geofence almacenado (sugiere cerrar sesión y volver a iniciar)
+- **"Ubicacion No Valida"**: El usuario esta fuera del area permitida
+- **"Error de Configuracion"**: No hay geofence almacenado (sugiere cerrar sesion y volver a iniciar)
 
-## Ventajas de Esta Implementación
+## Ventajas de Esta Implementacion
 
 1. ? **Rendimiento**: No hay llamada a la API cada vez que se registra asistencia
-2. ? **Offline**: La validación funciona sin conexión a Internet
-3. ? **Sincronización**: El geofence se actualiza automáticamente al hacer login
+2. ? **Offline**: La validacion funciona sin conexion a Internet
+3. ? **Sincronizacion**: El geofence se actualiza automaticamente al hacer login
 4. ? **Simplicidad**: Un solo endpoint (login) en lugar de dos
-5. ? **Consistencia**: El geofence siempre está disponible mientras el usuario esté autenticado
+5. ? **Consistencia**: El geofence siempre esta disponible mientras el usuario este autenticado
 
-## Próximos Pasos
+## Proximos Pasos
 
-1. **Reinicia la aplicación** para aplicar todos los cambios
+1. **Reinicia la aplicacion** para aplicar todos los cambios
 2. **Actualiza el backend** para incluir el geofenceConfig en el LoginResponse
 3. Prueba el flujo completo:
    - Login ? debe guardar el geofence en SQLite

@@ -37,7 +37,7 @@
                    HasShadow="True"
                    Padding="20">
                 <VerticalStackLayout Spacing="15">
-                    <Label Text="Información del Usuario"
+                    <Label Text="Informacion del Usuario"
                            FontSize="18"
                            FontAttributes="Bold"
                            TextColor="{DynamicResource Primary}" />
@@ -76,7 +76,7 @@
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
                         <Label Text="&#x1F550;" FontSize="20" Grid.Column="0" />
                         <VerticalStackLayout Grid.Column="1">
-                            <Label Text="Último Acceso"
+                            <Label Text="ultimo Acceso"
                                    FontSize="12"
                                    TextColor="{DynamicResource Gray600}" />
                             <Label Text="{Binding LastLogin}"
@@ -102,7 +102,7 @@
             </Frame>
 
             <!-- Logout Button -->
-            <Button Text="Cerrar Sesión"
+            <Button Text="Cerrar Sesion"
                     Command="{Binding LogoutCommand}"
                     BackgroundColor="#DC3545"
                     TextColor="White"

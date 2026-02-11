@@ -21,7 +21,7 @@
                        FontAttributes="Bold"
                        TextColor="White"
                        HorizontalOptions="Center" />
-                <Label Text="Sistema de Gestión"
+                <Label Text="Sistema de Gestion"
                        FontSize="14"
                        TextColor="White"
                        Opacity="0.8"
@@ -30,14 +30,14 @@
         </Grid>
     </Shell.FlyoutHeader>
 
-    <!-- Página de Login (sin flyout) -->
+    <!-- Pagina de Login (sin flyout) -->
     <ShellContent
         Title="Login"
         ContentTemplate="{DataTemplate views:LoginPage}"
         Route="login"
         FlyoutItemIsVisible="False" />
 
-    <!-- Sección: Inicio -->
+    <!-- Seccion: Inicio -->
     <FlyoutItem Title="Inicio" Icon="home.png">
         <ShellContent
             Title="Inicio"
@@ -45,7 +45,7 @@
             Route="main" />
     </FlyoutItem>
 
-    <!-- Sección: Mi Perfil -->
+    <!-- Seccion: Mi Perfil -->
     <FlyoutItem Title="Mi Perfil" Icon="user.png">
         <ShellContent
             Title="Mi Perfil"
@@ -53,7 +53,7 @@
             Route="profile" />
     </FlyoutItem>
 
-    <!-- Sección: Cartas Porte -->
+    <!-- Seccion: Cartas Porte -->
     <FlyoutItem Title="Nueva Asistencia" Icon="document.png">
         <ShellContent
             Title="Nueva Asistencia"
@@ -70,7 +70,7 @@
         <Grid BackgroundColor="{DynamicResource Gray200}" 
               HeightRequest="50" 
               Padding="10">
-            <Label Text="Versión 1.0.0"
+            <Label Text="Version 1.0.0"
                    FontSize="12"
                    TextColor="{DynamicResource Gray600}"
                    VerticalOptions="Center"
@@ -78,13 +78,13 @@
         </Grid>
     </Shell.FlyoutFooter>
 
-    <!-- Menu Item: Configuración -->
-    <MenuItem Text="Configuración" 
+    <!-- Menu Item: Configuracion -->
+    <MenuItem Text="Configuracion" 
               Clicked="OnSettingsClicked"
               IconImageSource="settings.png" />
 
-    <!-- Menu Item: Cerrar Sesión -->
-    <MenuItem Text="Cerrar Sesión" 
+    <!-- Menu Item: Cerrar Sesion -->
+    <MenuItem Text="Cerrar Sesion" 
               Clicked="OnLogoutClicked"
               IconImageSource="logout.png" />
 

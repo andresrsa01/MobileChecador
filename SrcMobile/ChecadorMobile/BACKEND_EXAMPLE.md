@@ -1,4 +1,4 @@
-# Ejemplo de Implementación del Backend
+# Ejemplo de Implementacion del Backend
 
 ## ?? Endpoint de Login Actualizado
 
@@ -22,7 +22,7 @@ Content-Type: application/json
   "user": {
     "id": 1,
     "username": "jperez",
-    "fullName": "Juan Pérez",
+    "fullName": "Juan Perez",
     "email": "jperez@ejemplo.com",
     "createdAt": "2024-01-15T10:30:00Z",
     "lastLogin": "2024-01-20T14:25:00Z",
@@ -46,7 +46,7 @@ Content-Type: application/json
   "user": {
     "id": 2,
     "username": "mlopez",
-    "fullName": "María López",
+    "fullName": "Maria Lopez",
     "email": "mlopez@ejemplo.com",
     "createdAt": "2024-01-10T08:00:00Z",
     "lastLogin": "2024-01-20T09:15:00Z",
@@ -67,7 +67,7 @@ Content-Type: application/json
 }
 ```
 
-## ?? Ejemplo de Implementación en C# (Backend ASP.NET Core)
+## ?? Ejemplo de Implementacion en C# (Backend ASP.NET Core)
 
 ```csharp
 // Controllers/AuthController.cs
@@ -107,13 +107,13 @@ public class AuthController : ControllerBase
             });
         }
 
-        // Actualizar último login
+        // Actualizar ultimo login
         await _userService.UpdateLastLoginAsync(user.Id);
 
         // Generar token JWT
         var token = _tokenService.GenerateToken(user);
 
-        // Obtener configuración de geofence para este usuario
+        // Obtener configuracion de geofence para este usuario
         var geofenceConfig = await _geofenceService.GetGeofenceByUserIdAsync(user.Id);
 
         return Ok(new LoginResponse
@@ -205,7 +205,7 @@ CREATE TABLE Users (
     IsActive BIT DEFAULT 1
 );
 
--- Tabla de configuración de geofence
+-- Tabla de configuracion de geofence
 CREATE TABLE Geofences (
     Id INT PRIMARY KEY IDENTITY(1,1),
     UserId INT NOT NULL,
@@ -219,7 +219,7 @@ CREATE TABLE Geofences (
     CONSTRAINT FK_Geofences_Users FOREIGN KEY (UserId) REFERENCES Users(Id)
 );
 
--- Índice para búsqueda rápida
+-- indice para busqueda rapida
 CREATE INDEX IX_Geofences_UserId ON Geofences(UserId) WHERE IsActive = 1;
 ```
 
@@ -229,9 +229,9 @@ CREATE INDEX IX_Geofences_UserId ON Geofences(UserId) WHERE IsActive = 1;
 -- Insertar usuarios de prueba
 INSERT INTO Users (Username, Password, FullName, Email, IsActive)
 VALUES 
-    ('jperez', 'hash_de_password_1', 'Juan Pérez', 'jperez@ejemplo.com', 1),
-    ('mlopez', 'hash_de_password_2', 'María López', 'mlopez@ejemplo.com', 1),
-    ('agarcia', 'hash_de_password_3', 'Ana García', 'agarcia@ejemplo.com', 1);
+    ('jperez', 'hash_de_password_1', 'Juan Perez', 'jperez@ejemplo.com', 1),
+    ('mlopez', 'hash_de_password_2', 'Maria Lopez', 'mlopez@ejemplo.com', 1),
+    ('agarcia', 'hash_de_password_3', 'Ana Garcia', 'agarcia@ejemplo.com', 1);
 
 -- Insertar geofences de prueba
 INSERT INTO Geofences (UserId, CenterLatitude, CenterLongitude, RadiusInMeters, LocationName, IsActive)
@@ -260,14 +260,14 @@ curl -X POST http://localhost:5000/api/auth/login \
 # Respuesta esperada: LoginResponse con geofenceConfig incluido
 ```
 
-## ?? Configuraciones Recomendadas por Tipo de Ubicación
+## ?? Configuraciones Recomendadas por Tipo de Ubicacion
 
-| Tipo de Ubicación | Radio Recomendado | Ejemplo |
+| Tipo de Ubicacion | Radio Recomendado | Ejemplo |
 |-------------------|-------------------|---------|
 | Oficina pequeña | 50m | Edificio de oficinas |
 | Oficina grande/corporativo | 100-150m | Campus corporativo |
-| Obra/Proyecto | 200-500m | Construcción, instalación |
-| Almacén/Bodega | 100-200m | Centro de distribución |
+| Obra/Proyecto | 200-500m | Construccion, instalacion |
+| Almacen/Bodega | 100-200m | Centro de distribucion |
 | Tienda/Sucursal | 50-75m | Retail, sucursal bancaria |
 
 ## ?? Consideraciones de Seguridad
@@ -276,7 +276,7 @@ curl -X POST http://localhost:5000/api/auth/login \
 2. **Usar HTTPS** para todas las comunicaciones
 3. **Validar tokens JWT** en cada request
 4. **Limitar intentos de login** para prevenir fuerza bruta
-5. **Logs de acceso** para auditoría
+5. **Logs de acceso** para auditoria
 
 ## ?? Monitoreo y Logs
 

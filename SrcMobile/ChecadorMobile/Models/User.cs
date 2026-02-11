@@ -20,6 +20,14 @@ public class User
     [MaxLength(200)]
     public string Email { get; set; } = string.Empty;
 
+    [MaxLength(50)]
+    public string Role { get; set; } = string.Empty;
+
+    public int? WorkplaceId { get; set; }
+
+    [Ignore]
+    public string? WorkplaceName { get; set; }
+
     public DateTime CreatedAt { get; set; }
 
     public DateTime? LastLogin { get; set; }

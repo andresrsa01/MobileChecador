@@ -30,7 +30,7 @@ public static class MauiProgram
 
         // Refit - API Service
         builder.Services.AddRefitClient<IApiService>()
-            .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.ejemplo.com"));
+            .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://4fbd-189-190-147-159.ngrok-free.app"));
 
         // ViewModels (Transient)
         builder.Services.AddTransient<LoginViewModel>();

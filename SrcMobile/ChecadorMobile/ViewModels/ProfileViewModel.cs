@@ -61,9 +61,9 @@ public partial class ProfileViewModel : ObservableObject
     private async Task LogoutAsync()
     {
         var result = await Application.Current!.MainPage!.DisplayAlert(
-            "Cerrar Sesión", 
-            "¿Está seguro que desea cerrar sesión?", 
-            "Sí", 
+            "Cerrar Sesion", 
+            "¿Esta seguro que desea cerrar sesion?", 
+            "Si", 
             "No");
         
         if (result)

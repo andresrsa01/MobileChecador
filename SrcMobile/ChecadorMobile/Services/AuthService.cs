@@ -48,7 +48,6 @@ public class AuthService : IAuthService
                     // Guardar geofence si viene en la respuesta
                     if (response.GeofenceConfig != null)
                     {
-                        response.GeofenceConfig.UserId = _currentUser.Id;
                         await _databaseService.SaveGeofenceConfigAsync(response.GeofenceConfig);
                     }
                     
@@ -62,7 +61,7 @@ public class AuthService : IAuthService
 
             return response;
         }
-        catch
+        catch(Exception ex)
         {
             // Si falla la API, intentar login local
             var user = await _databaseService.GetUserByUsernameAsync(username);
@@ -71,7 +70,7 @@ public class AuthService : IAuthService
             {
                 _currentUser = user;
                 
-                // Actualizar último login
+                // Actualizar ultimo login
                 await _databaseService.UpdateLastLoginAsync(user.Id);
                 
                 // Recargar usuario con LastLogin actualizado
@@ -150,7 +149,7 @@ public class AuthService : IAuthService
             {
                 _currentUser = await _databaseService.GetUserByIdAsync(userId);
                 
-                // Guardar en Preferences para próxima vez
+                // Guardar en Preferences para proxima vez
                 if (_currentUser != null)
                 {
                     SaveUserDataToPreferences(_currentUser, _token);
@@ -198,6 +197,6 @@ public class AuthService : IAuthService
         if (user == null)
             return null;
             
-        return await _databaseService.GetGeofenceConfigByUserIdAsync(user.Id);
+        return await _databaseService.GetGeofenceConfigAsync();
     }
 }

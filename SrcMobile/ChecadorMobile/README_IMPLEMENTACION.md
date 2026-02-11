@@ -1,8 +1,8 @@
-# ?? MauiGenCartaPorte - Implementación MVVM
+# ?? MauiGenCartaPorte - Implementacion MVVM
 
-## ? Implementación Completada
+## ? Implementacion Completada
 
-Se ha implementado exitosamente el patrón **MVVM** con **MVVM Toolkit** en el proyecto .NET MAUI.
+Se ha implementado exitosamente el patron **MVVM** con **MVVM Toolkit** en el proyecto .NET MAUI.
 
 ---
 
@@ -24,90 +24,90 @@ MauiGenCartaPorte/
 ?
 ??? ?? Services/
 ?   ??? IDatabaseService.cs          # Interface del servicio de BD
-?   ??? DatabaseService.cs           # Implementación SQLite
-?   ??? IAuthenticationService.cs    # Interface de autenticación
-?   ??? AuthenticationService.cs     # Implementación de auth
-?   ??? INavigationService.cs        # Interface de navegación
-?   ??? NavigationService.cs         # Implementación de navegación
+?   ??? DatabaseService.cs           # Implementacion SQLite
+?   ??? IAuthenticationService.cs    # Interface de autenticacion
+?   ??? AuthenticationService.cs     # Implementacion de auth
+?   ??? INavigationService.cs        # Interface de navegacion
+?   ??? NavigationService.cs         # Implementacion de navegacion
 ?
 ??? ?? ViewModels/
 ?   ??? LoginViewModel.cs            # ViewModel del login
-?   ??? MainViewModel.cs             # ViewModel página principal
+?   ??? MainViewModel.cs             # ViewModel pagina principal
 ?   ??? ProfileViewModel.cs          # ViewModel del perfil
 ?
 ??? ?? Views/
-?   ??? LoginPage.xaml/.cs           # Página de inicio de sesión
-?   ??? MainPage.xaml/.cs            # Página principal
-?   ??? ProfilePage.xaml/.cs         # Página de perfil
+?   ??? LoginPage.xaml/.cs           # Pagina de inicio de sesion
+?   ??? MainPage.xaml/.cs            # Pagina principal
+?   ??? ProfilePage.xaml/.cs         # Pagina de perfil
 ?
 ??? ?? Converters/
 ?   ??? InvertedBoolConverter.cs     # Invierte valores booleanos
 ?   ??? StringIsNotNullOrEmptyConverter.cs  # Valida strings
 ?
-??? AppShell.xaml/.cs                # Shell con menú hamburguesa
-??? App.xaml/.cs                     # Configuración de la app
+??? AppShell.xaml/.cs                # Shell con menu hamburguesa
+??? App.xaml/.cs                     # Configuracion de la app
 ??? MauiProgram.cs                   # Registro de DI
 ```
 
 ---
 
-## ?? Características Implementadas
+## ?? Caracteristicas Implementadas
 
-### 1. ?? Sistema de Autenticación
+### 1. ?? Sistema de Autenticacion
 - Login con usuario y contraseña
-- Validación de credenciales contra SQLite
-- Sesión persistente con CurrentUser
+- Validacion de credenciales contra SQLite
+- Sesion persistente con CurrentUser
 - Usuario demo precargado:
   - **Usuario:** `admin`
   - **Contraseña:** `admin123`
 
-### 2. ?? Menú Hamburguesa (Flyout)
+### 2. ?? Menu Hamburguesa (Flyout)
 - Header personalizado con logo
 - Secciones organizadas:
   - Inicio
   - Mi Perfil
   - Cartas Porte (con subsecciones)
-  - Configuración
-- Footer con versión de la app
-- Navegación fluida entre páginas
+  - Configuracion
+- Footer con version de la app
+- Navegacion fluida entre paginas
 
-### 3. ?? Páginas Implementadas
+### 3. ?? Paginas Implementadas
 
 #### LoginPage
-- Formulario de inicio de sesión
-- Validación de campos
+- Formulario de inicio de sesion
+- Validacion de campos
 - Mensajes de error
 - Indicador de carga
 - Diseño moderno y responsive
 
 #### MainPage
-- Página de inicio con bienvenida
-- Grid de acciones rápidas
+- Pagina de inicio con bienvenida
+- Grid de acciones rapidas
 - Cards con iconos
-- Sección de información
+- Seccion de informacion
 
 #### ProfilePage
-- Información del usuario autenticado
+- Informacion del usuario autenticado
 - Avatar con emoji
 - Datos organizados en cards
-- Botón de cerrar sesión
+- Boton de cerrar sesion
 - Formato de fechas
 
 ### 4. ?? Base de Datos SQLite
 - Tabla de usuarios con campos:
   - Id (PK, AutoIncrement)
-  - Username (Único)
-  - Password (Hash en producción)
+  - Username (unico)
+  - Password (Hash en produccion)
   - FullName
   - Email
   - CreatedAt
   - LastLogin
   - IsActive
-- Inicialización automática
+- Inicializacion automatica
 - Usuario demo precargado
 - CRUD completo implementado
 
-### 5. ?? Inyección de Dependencias
+### 5. ?? Inyeccion de Dependencias
 - Servicios registrados como Singleton
 - ViewModels registrados como Transient
 - Views registradas como Transient
@@ -116,19 +116,19 @@ MauiGenCartaPorte/
 ### 6. ??? Servicios Implementados
 
 #### DatabaseService
-- Gestión completa de SQLite
-- Métodos CRUD para usuarios
-- Validación de credenciales
-- Actualización de último login
+- Gestion completa de SQLite
+- Metodos CRUD para usuarios
+- Validacion de credenciales
+- Actualizacion de ultimo login
 
 #### AuthenticationService
 - Login/Logout
 - Usuario actual (CurrentUser)
-- Estado de autenticación (IsAuthenticated)
+- Estado de autenticacion (IsAuthenticated)
 
 #### NavigationService
-- Navegación programática
-- Integración con Shell
+- Navegacion programatica
+- Integracion con Shell
 - Rutas registradas
 
 ---
@@ -136,7 +136,7 @@ MauiGenCartaPorte/
 ## ?? Diseño UI/UX
 
 ### Estilos Aplicados
-- Uso de recursos dinámicos (DynamicResource)
+- Uso de recursos dinamicos (DynamicResource)
 - Paleta de colores del tema
 - Frames con sombras
 - Bordes redondeados (CornerRadius)
@@ -149,7 +149,7 @@ MauiGenCartaPorte/
 
 ---
 
-## ?? Flujo de Navegación
+## ?? Flujo de Navegacion
 
 ```
 1. App Inicia
@@ -160,11 +160,11 @@ MauiGenCartaPorte/
    ?
 4. [Usuario ingresa credenciales]
    ?
-5. Validación contra SQLite
+5. Validacion contra SQLite
    ?
 6. MainPage (///main) - Con Flyout visible
    ??? ProfilePage
-   ??? Configuración
+   ??? Configuracion
    ??? Otras secciones
 ```
 
@@ -172,16 +172,16 @@ MauiGenCartaPorte/
 
 ## ?? Rutas Registradas
 
-- `///login` - Página de login (sin flyout)
-- `///main` - Página principal
-- `///profile` - Página de perfil
+- `///login` - Pagina de login (sin flyout)
+- `///main` - Pagina principal
+- `///profile` - Pagina de perfil
 - `newcarta` - Nueva carta (placeholder)
 - `listcartas` - Lista de cartas (placeholder)
-- `settings` - Configuración (placeholder)
+- `settings` - Configuracion (placeholder)
 
 ---
 
-## ?? Configuración de Dependencias
+## ?? Configuracion de Dependencias
 
 ### MauiProgram.cs
 ```csharp
@@ -227,61 +227,61 @@ builder.Services.AddTransient<ProfilePage>();
 // Propiedad observable
 [ObservableProperty]
 private string username = string.Empty;
-// Genera automáticamente: public string Username { get; set; }
+// Genera automaticamente: public string Username { get; set; }
 // con INotifyPropertyChanged
 
 // Comando
 [RelayCommand]
 private async Task LoginAsync()
 {
-    // Lógica del comando
+    // Logica del comando
 }
-// Genera automáticamente: public IAsyncRelayCommand LoginCommand { get; }
+// Genera automaticamente: public IAsyncRelayCommand LoginCommand { get; }
 ```
 
 ---
 
-## ?? Cómo Probar la Aplicación
+## ?? Como Probar la Aplicacion
 
-1. **Ejecutar la aplicación**
+1. **Ejecutar la aplicacion**
 2. **En LoginPage:**
    - Usuario: `admin`
    - Contraseña: `admin123`
-3. **Hacer clic en "Iniciar Sesión"**
-4. **Explorar el menú hamburguesa:**
-   - Deslizar desde la izquierda o tocar el ícono ?
+3. **Hacer clic en "Iniciar Sesion"**
+4. **Explorar el menu hamburguesa:**
+   - Deslizar desde la izquierda o tocar el icono ?
 5. **Navegar a "Mi Perfil":**
-   - Ver información del usuario
-   - Probar "Cerrar Sesión"
+   - Ver informacion del usuario
+   - Probar "Cerrar Sesion"
 
 ---
 
-## ?? Documentación Adicional
+## ?? Documentacion Adicional
 
 Ver archivo: **`INSTRUCCIONES_MVVM.md`** para:
-- ? Guía completa para agregar nuevas páginas
-- ? Ejemplos de código paso a paso
-- ? Mejores prácticas
+- ? Guia completa para agregar nuevas paginas
+- ? Ejemplos de codigo paso a paso
+- ? Mejores practicas
 - ? Tips y trucos
 - ? Operaciones SQLite avanzadas
 - ? Uso completo del MVVM Toolkit
 
 ---
 
-## ?? Seguridad (Producción)
+## ?? Seguridad (Produccion)
 
-?? **IMPORTANTE**: En un entorno de producción:
+?? **IMPORTANTE**: En un entorno de produccion:
 
 1. **NO almacenar passwords en texto plano**
    - Usar hashing (BCrypt, PBKDF2, etc.)
    - Ejemplo: `BCrypt.Net.BCrypt.HashPassword(password)`
 
-2. **Implementar validación de entrada**
+2. **Implementar validacion de entrada**
    - Sanitizar datos de usuario
    - Validar longitudes y formatos
 
 3. **Usar HTTPS para APIs**
-   - Comunicación segura con backend
+   - Comunicacion segura con backend
 
 4. **Implementar tokens JWT**
    - Para sesiones persistentes seguras
@@ -297,9 +297,9 @@ Ver archivo: **`INSTRUCCIONES_MVVM.md`** para:
 - Verificar permisos de FileSystem.AppDataDirectory
 - Asegurarse de que InitializeAsync() se llama
 
-### Error: "No navega después del login"
+### Error: "No navega despues del login"
 - Verificar rutas en AppShell
-- Revisar que los servicios estén registrados
+- Revisar que los servicios esten registrados
 
 ### Error: "ViewModel no recibe datos"
 - Verificar BindingContext en el code-behind
@@ -307,33 +307,33 @@ Ver archivo: **`INSTRUCCIONES_MVVM.md`** para:
 
 ---
 
-## ?? Próximas Mejoras Sugeridas
+## ?? Proximas Mejoras Sugeridas
 
-1. ? ~~Implementar patrón MVVM~~
+1. ? ~~Implementar patron MVVM~~
 2. ? ~~Agregar SQLite~~
 3. ? ~~Crear sistema de login~~
-4. ? ~~Implementar menú hamburguesa~~
-5. ? Agregar páginas CRUD para CartaPorte
-6. ? Implementar búsqueda y filtros
-7. ? Agregar validación de formularios
-8. ? Implementar sincronización con API
-9. ? Agregar manejo de imágenes
+4. ? ~~Implementar menu hamburguesa~~
+5. ? Agregar paginas CRUD para CartaPorte
+6. ? Implementar busqueda y filtros
+7. ? Agregar validacion de formularios
+8. ? Implementar sincronizacion con API
+9. ? Agregar manejo de imagenes
 10. ? Implementar notificaciones push
 11. ? Agregar modo offline
-12. ? Implementar exportación a PDF
+12. ? Implementar exportacion a PDF
 
 ---
 
-## ?? Contribución
+## ?? Contribucion
 
 Para contribuir al proyecto:
 
 1. Seguir la estructura MVVM establecida
 2. Usar MVVM Toolkit para ViewModels
 3. Registrar servicios en MauiProgram.cs
-4. Documentar código complejo
+4. Documentar codigo complejo
 5. Seguir convenciones de nombres
-6. Probar en múltiples plataformas
+6. Probar en multiples plataformas
 
 ---
 
@@ -341,8 +341,8 @@ Para contribuir al proyecto:
 
 Para preguntas o problemas:
 1. Revisar `INSTRUCCIONES_MVVM.md`
-2. Consultar documentación de MAUI
-3. Revisar ejemplos en el código
+2. Consultar documentacion de MAUI
+3. Revisar ejemplos en el codigo
 
 ---
 
@@ -352,8 +352,8 @@ Para preguntas o problemas:
 
 ---
 
-**Versión:** 1.0.0  
-**Última actualización:** 2024  
+**Version:** 1.0.0  
+**ultima actualizacion:** 2024  
 **Framework:** .NET 10.0  
 **Plataformas:** Android, iOS, macOS, Windows
 

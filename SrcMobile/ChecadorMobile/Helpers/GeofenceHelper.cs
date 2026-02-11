@@ -3,7 +3,7 @@ namespace MauiAppChecador.Helpers;
 public static class GeofenceHelper
 {
     /// <summary>
-    /// Calcula la distancia en metros entre dos puntos geográficos usando la fórmula de Haversine
+    /// Calcula la distancia en metros entre dos puntos geograficos usando la formula de Haversine
     /// </summary>
     public static double CalculateDistance(double lat1, double lon1, double lat2, double lon2)
     {
@@ -23,7 +23,7 @@ public static class GeofenceHelper
     }
 
     /// <summary>
-    /// Verifica si una ubicación está dentro del geofence
+    /// Verifica si una ubicacion esta dentro del geofence
     /// </summary>
     public static bool IsWithinGeofence(double currentLat, double currentLon, double centerLat, double centerLon, double radiusInMeters)
     {

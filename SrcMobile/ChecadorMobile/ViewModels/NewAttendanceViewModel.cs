@@ -186,7 +186,7 @@ public partial class NewAttendanceViewModel : ObservableObject
                 StatusMessage = $"?? Fuera del área permitida ({distance:F0}m de distancia)";
                 await Application.Current?.MainPage?.DisplayAlert(
                     "Ubicación No Válida",
-                    $"Debes estar dentro del área de {geofenceConfig.LocationName} (radio de {geofenceConfig.RadiusInMeters:F0}m) para registrar tu asistencia.\n\nDistancia actual: {distance:F0} metros.",
+                    $"Debes estar dentro del área permitida (radio de {geofenceConfig.RadiusInMeters:F0}m) para registrar tu asistencia.\n\nDistancia actual: {distance:F0} metros.",
                     "OK")!;
                 return;
             }

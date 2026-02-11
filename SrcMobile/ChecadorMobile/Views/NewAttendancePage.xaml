@@ -19,7 +19,7 @@
                 HorizontalOptions="Center"
                 Margin="0,0,0,20"/>
 
-            <!-- Título -->
+            <!-- Titulo -->
             <Label
                 Text="Registro de Asistencia"
                 FontSize="28"
@@ -49,20 +49,20 @@
                 HasShadow="False">
                 <VerticalStackLayout Spacing="10">
                     <Label
-                        Text="⚠️ Permisos de Ubicación Requeridos"
+                        Text="⚠️ Permisos de Ubicacion Requeridos"
                         FontSize="16"
                         FontAttributes="Bold"
                         HorizontalTextAlignment="Center"
                         TextColor="#856404"/>
                     <Label
-                        Text="Para registrar tu asistencia, debes habilitar los permisos de ubicación. Al presionar el botón, se te solicitarán automáticamente."
+                        Text="Para registrar tu asistencia, debes habilitar los permisos de ubicacion. Al presionar el boton, se te solicitaran automaticamente."
                         FontSize="14"
                         HorizontalTextAlignment="Center"
                         TextColor="#856404"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Alerta de conexión a Internet -->
+            <!-- Alerta de conexion a Internet -->
             <Frame
                 Padding="15"
                 CornerRadius="10"
@@ -72,20 +72,20 @@
                 HasShadow="False">
                 <VerticalStackLayout Spacing="10">
                     <Label
-                        Text="🌐 Sin Conexión a Internet"
+                        Text="🌐 Sin Conexion a Internet"
                         FontSize="16"
                         FontAttributes="Bold"
                         HorizontalTextAlignment="Center"
                         TextColor="#721C24"/>
                     <Label
-                        Text="Se requiere conexión a Internet para registrar tu asistencia. Por favor, verifica tu conexión WiFi o datos móviles."
+                        Text="Se requiere conexion a Internet para registrar tu asistencia. Por favor, verifica tu conexion WiFi o datos moviles."
                         FontSize="14"
                         HorizontalTextAlignment="Center"
                         TextColor="#721C24"/>
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Información de ubicación -->
+            <!-- Informacion de ubicacion -->
             <Grid
                 ColumnDefinitions="*,*"
                 RowDefinitions="Auto,Auto"
@@ -114,7 +114,7 @@
                     Text="{Binding Longitude, StringFormat='{0:F6}'}"/>
             </Grid>
 
-            <!-- Botón de registro -->
+            <!-- Boton de registro -->
             <Button
                 Text="Registrar Asistencia"
                 Command="{Binding RegisterAttendanceCommand}"

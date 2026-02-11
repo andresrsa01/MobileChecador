@@ -15,6 +15,6 @@ public interface IDatabaseService
     
     // Geofence methods
     Task<int> SaveGeofenceConfigAsync(GeofenceConfig geofenceConfig);
-    Task<GeofenceConfig?> GetGeofenceConfigByUserIdAsync(int userId);
-    Task<int> DeleteGeofenceConfigByUserIdAsync(int userId);
+    Task<GeofenceConfig?> GetGeofenceConfigAsync();
+    Task<int> DeleteGeofenceConfigAsync();
 }

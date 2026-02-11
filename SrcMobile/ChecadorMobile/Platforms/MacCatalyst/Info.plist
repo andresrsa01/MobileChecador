@@ -3,8 +3,8 @@
 <plist version="1.0">
 <dict>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Esta aplicación necesita acceso a tu ubicación para registrar tu asistencia.</string>
+    <string>Esta aplicacion necesita acceso a tu ubicacion para registrar tu asistencia.</string>
     <key>NSLocationAlwaysUsageDescription</key>
-    <string>Esta aplicación necesita acceso a tu ubicación para registrar tu asistencia.</string>
+    <string>Esta aplicacion necesita acceso a tu ubicacion para registrar tu asistencia.</string>
 </dict>
 </plist>

@@ -71,7 +71,7 @@
             </Frame>
 
             <Label
-                Text="¿Olvidó su contraseña?"
+                Text="¿Olvido su contraseña?"
                 TextColor="{StaticResource Primary}"
                 HorizontalOptions="Center"
                 Margin="0,20,0,0">

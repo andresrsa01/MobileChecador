@@ -13,7 +13,7 @@ public partial class AppShell : Shell
 
     private async void OnLogoutClicked(object sender, EventArgs e)
     {
-        var result = await DisplayAlert("Cerrar Sesión", "¿Está seguro que desea cerrar sesión?", "Sí", "No");
+        var result = await DisplayAlert("Cerrar Sesion", "¿Esta seguro que desea cerrar sesion?", "Si", "No");
         
         if (result)
         {

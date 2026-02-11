@@ -43,11 +43,11 @@ public partial class LoginViewModel : ObservableObject
 
             if (result.Success)
             {
-                // Navegar a la página principal
+                // Navegar a la pagina principal
                 Application.Current!.MainPage = new AppShell();
                 await Shell.Current.GoToAsync("///main");
                 
-                // Verificar permisos de ubicación después del login
+                // Verificar permisos de ubicacion despues del login
                 await CheckLocationPermissionsAfterLoginAsync();
             }
             else
@@ -75,9 +75,9 @@ public partial class LoginViewModel : ObservableObject
             {
                 // Preguntar al usuario si desea otorgar permisos ahora
                 bool shouldRequest = await Application.Current?.MainPage?.DisplayAlert(
-                    "Permisos de Ubicación",
-                    "La aplicación necesita acceso a tu ubicación para registrar asistencias. ¿Deseas habilitar los permisos ahora?",
-                    "Sí", "Más tarde")!;
+                    "Permisos de Ubicacion",
+                    "La aplicacion necesita acceso a tu ubicacion para registrar asistencias. ¿Deseas habilitar los permisos ahora?",
+                    "Si", "Mas tarde")!;
 
                 if (shouldRequest)
                 {
@@ -87,31 +87,31 @@ public partial class LoginViewModel : ObservableObject
                     {
                         await Application.Current?.MainPage?.DisplayAlert(
                             "Permisos Otorgados",
-                            "Los permisos de ubicación han sido habilitados correctamente.",
+                            "Los permisos de ubicacion han sido habilitados correctamente.",
                             "OK")!;
                     }
                     else if (status == PermissionStatus.Denied && DeviceInfo.Platform == DevicePlatform.iOS)
                     {
-                        // En iOS, si se deniega, debe ir a configuración
+                        // En iOS, si se deniega, debe ir a configuracion
                         await Application.Current?.MainPage?.DisplayAlert(
                             "Permisos Denegados",
-                            "Para habilitar los permisos de ubicación, ve a:\nConfiguracion > MobileChecador > Ubicación",
+                            "Para habilitar los permisos de ubicacion, ve a:\nConfiguracion > MobileChecador > Ubicacion",
                             "Entendido")!;
                     }
                     else
                     {
                         await Application.Current?.MainPage?.DisplayAlert(
                             "Permisos Denegados",
-                            "Los permisos de ubicación fueron denegados. Puedes habilitarlos más tarde en la configuración de tu dispositivo.",
+                            "Los permisos de ubicacion fueron denegados. Puedes habilitarlos mas tarde en la configuracion de tu dispositivo.",
                             "OK")!;
                     }
                 }
                 else
                 {
-                    // Usuario eligió "Más tarde"
+                    // Usuario eligio "Mas tarde"
                     await Application.Current?.MainPage?.DisplayAlert(
                         "Recordatorio",
-                        "Recuerda que necesitarás habilitar los permisos de ubicación para poder registrar tu asistencia.",
+                        "Recuerda que necesitaras habilitar los permisos de ubicacion para poder registrar tu asistencia.",
                         "OK")!;
                 }
             }

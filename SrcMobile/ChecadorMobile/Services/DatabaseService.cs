@@ -30,9 +30,10 @@ public class DatabaseService : IDatabaseService
             var demoUser = new User
             {
                 Username = "admin",
-                Password = "admin123", // En producción usar hash
+                Password = "admin123", // En produccion usar hash
                 FullName = "Administrador",
                 Email = "admin@ejemplo.com",
+                Role = "Administrador",
                 CreatedAt = DateTime.Now,
                 IsActive = true
             };
@@ -114,8 +115,8 @@ public class DatabaseService : IDatabaseService
     {
         await InitAsync();
         
-        // Verificar si ya existe un geofence para este usuario
-        var existing = await GetGeofenceConfigByUserIdAsync(geofenceConfig.UserId);
+        // Verificar si ya existe un geofence
+        var existing = await GetGeofenceConfigAsync();
         
         geofenceConfig.UpdatedAt = DateTime.UtcNow;
         
@@ -130,18 +131,17 @@ public class DatabaseService : IDatabaseService
         }
     }
 
-    public async Task<GeofenceConfig?> GetGeofenceConfigByUserIdAsync(int userId)
+    public async Task<GeofenceConfig?> GetGeofenceConfigAsync()
     {
         await InitAsync();
         return await _database!.Table<GeofenceConfig>()
-            .Where(g => g.UserId == userId)
             .FirstOrDefaultAsync();
     }
 
-    public async Task<int> DeleteGeofenceConfigByUserIdAsync(int userId)
+    public async Task<int> DeleteGeofenceConfigAsync()
     {
         await InitAsync();
-        var config = await GetGeofenceConfigByUserIdAsync(userId);
+        var config = await GetGeofenceConfigAsync();
         if (config != null)
         {
             return await _database!.DeleteAsync(config);

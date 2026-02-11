@@ -28,10 +28,10 @@ public partial class App : Application
     {
         await _databaseService.InitializeDatabaseAsync();
         
-        // Inicializar sesión desde datos persistidos
+        // Inicializar sesion desde datos persistidos
         await _authService.InitializeSessionAsync();
 
-        // Verificar si el usuario ya está autenticado
+        // Verificar si el usuario ya esta autenticado
         if (_authService.IsAuthenticated())
         {
             await Shell.Current.GoToAsync("///main");

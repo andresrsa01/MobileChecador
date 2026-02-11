@@ -2,9 +2,9 @@
 
 ## ?? Resumen
 
-Se ha creado un proyecto **Web API completo en .NET 9.0** con todas las funcionalidades necesarias para soportar la aplicación MAUI de checador de asistencias.
+Se ha creado un proyecto **Web API completo en .NET 9.0** con todas las funcionalidades necesarias para soportar la aplicacion MAUI de checador de asistencias.
 
-## ?? Ubicación del Proyecto
+## ?? Ubicacion del Proyecto
 
 ```
 CheckadorAPI/
@@ -12,48 +12,48 @@ CheckadorAPI/
 
 El proyecto se encuentra en la carpeta `CheckadorAPI` dentro de tu workspace actual.
 
-## ? Características Implementadas
+## ? Caracteristicas Implementadas
 
-### ?? Autenticación y Seguridad
-- ? Autenticación JWT con tokens de 7 días
+### ?? Autenticacion y Seguridad
+- ? Autenticacion JWT con tokens de 7 dias
 - ? Hash de contraseñas con BCrypt
 - ? Sistema de roles (Administrador y Usuario)
-- ? Endpoints protegidos con autorización
+- ? Endpoints protegidos con autorizacion
 
-### ?? Gestión de Usuarios
+### ?? Gestion de Usuarios
 - ? CRUD completo de usuarios
-- ? Activación/desactivación de cuentas
-- ? Validación de datos
+- ? Activacion/desactivacion de cuentas
+- ? Validacion de datos
 - ? Usuarios por defecto para testing
 
 ### ?? Geofencing
-- ? Configuración de áreas permitidas por usuario
-- ? Cálculo de distancia con fórmula de Haversine
-- ? Validación automática de ubicación
+- ? Configuracion de areas permitidas por usuario
+- ? Calculo de distancia con formula de Haversine
+- ? Validacion automatica de ubicacion
 - ? Radio configurable (10m - 10km)
 
 ### ?? Registro de Asistencias
-- ? Una asistencia por día
-- ? Validación de geofence en tiempo real
+- ? Una asistencia por dia
+- ? Validacion de geofence en tiempo real
 - ? Historial completo
 - ? Reportes por usuario y fecha
 
 ### ??? Base de Datos
 - ? Entity Framework Core 9.0
 - ? SQL Server / LocalDB
-- ? Migraciones automáticas
+- ? Migraciones automaticas
 - ? Seed data inicial
 
-### ?? Documentación
+### ?? Documentacion
 - ? Swagger/OpenAPI integrado
 - ? README completo
 - ? Ejemplos de uso
-- ? Guías de configuración
+- ? Guias de configuracion
 
 ## ?? Endpoints de la API
 
-### Autenticación
-- `POST /api/auth/login` - Iniciar sesión
+### Autenticacion
+- `POST /api/auth/login` - Iniciar sesion
 
 ### Usuarios (Admin)
 - `GET /api/users` - Listar todos
@@ -65,7 +65,7 @@ El proyecto se encuentra en la carpeta `CheckadorAPI` dentro de tu workspace act
 ### Asistencias
 - `POST /api/attendance/register` - Registrar asistencia
 - `GET /api/attendance/user/{userId}` - Historial de usuario
-- `GET /api/attendance/today` - Asistencias del día (Admin)
+- `GET /api/attendance/today` - Asistencias del dia (Admin)
 
 ### Geofences (Admin)
 - `GET /api/geofence` - Listar todos
@@ -86,12 +86,12 @@ Contraseña: Admin123!
 ```
 Usuario: usuario1
 Contraseña: User123!
-Geofence: Oficina Central (Zócalo CDMX, 200m)
+Geofence: Oficina Central (Zocalo CDMX, 200m)
   Latitud: 19.432608
   Longitud: -99.133209
 ```
 
-## ?? Inicio Rápido
+## ?? Inicio Rapido
 
 ### 1. Navegar al Proyecto
 ```bash
@@ -123,7 +123,7 @@ https://localhost:5001/swagger
 .\test-api.ps1
 ```
 
-## ?? Integración con MAUI
+## ?? Integracion con MAUI
 
 ### URL para Android Emulator
 ```
@@ -135,39 +135,39 @@ http://10.0.2.2:5000
 http://localhost:5000
 ```
 
-### URL para Dispositivo Físico
+### URL para Dispositivo Fisico
 ```
 http://[TU_IP_LOCAL]:5000
 ```
 
-**Documentación completa**: `CheckadorAPI/CONFIGURACION_MAUI.md`
+**Documentacion completa**: `CheckadorAPI/CONFIGURACION_MAUI.md`
 
-## ?? Documentación Disponible
+## ?? Documentacion Disponible
 
-| Archivo | Descripción |
+| Archivo | Descripcion |
 |---------|-------------|
-| `README.md` | Documentación completa de la API |
+| `README.md` | Documentacion completa de la API |
 | `EXAMPLES.md` | Ejemplos de uso con curl, PowerShell y C# |
 | `RESUMEN.md` | Resumen ejecutivo del proyecto |
-| `CONFIGURACION_MAUI.md` | Guía de integración con la app MAUI |
-| `DEPLOY.md` | Guía completa de despliegue en producción |
+| `CONFIGURACION_MAUI.md` | Guia de integracion con la app MAUI |
+| `DEPLOY.md` | Guia completa de despliegue en produccion |
 
-## ??? Scripts Útiles
+## ??? Scripts utiles
 
-| Script | Descripción |
+| Script | Descripcion |
 |--------|-------------|
 | `setup-database.ps1` | Inicializa la base de datos con datos de prueba |
 | `test-api.ps1` | Prueba automatizada de todos los endpoints |
 | `show-summary.ps1` | Muestra un resumen del proyecto |
 
-## ?? Tecnologías Utilizadas
+## ?? Tecnologias Utilizadas
 
 - **.NET 9.0** - Framework principal
 - **Entity Framework Core 9.0** - ORM
 - **SQL Server / LocalDB** - Base de datos
-- **JWT Bearer** - Autenticación
+- **JWT Bearer** - Autenticacion
 - **BCrypt.Net-Next** - Hash de contraseñas
-- **Swashbuckle** - Documentación Swagger
+- **Swashbuckle** - Documentacion Swagger
 
 ## ?? Estructura del Proyecto
 
@@ -179,53 +179,53 @@ CheckadorAPI/
 ??? Data/              # DbContext de Entity Framework
 ??? Helpers/           # Utilidades (JWT, Geofence)
 ??? Migrations/        # Migraciones de base de datos
-??? Properties/        # Configuración de launch
-??? Documentación/     # 5 archivos markdown
+??? Properties/        # Configuracion de launch
+??? Documentacion/     # 5 archivos markdown
 ??? Scripts/           # 3 scripts PowerShell
 ```
 
-## ?? Importante para Producción
+## ?? Importante para Produccion
 
-Antes de desplegar en producción, asegúrate de:
+Antes de desplegar en produccion, asegurate de:
 
 - [ ] Cambiar la clave JWT por una segura
-- [ ] Configurar cadena de conexión de producción
-- [ ] Deshabilitar Swagger en producción
+- [ ] Configurar cadena de conexion de produccion
+- [ ] Deshabilitar Swagger en produccion
 - [ ] Configurar CORS apropiadamente
-- [ ] Usar HTTPS con certificado válido
+- [ ] Usar HTTPS con certificado valido
 - [ ] Cambiar contraseñas por defecto
 - [ ] Configurar logging y monitoreo
 
 Ver `DEPLOY.md` para instrucciones completas de despliegue.
 
-## ? Verificación del Proyecto
+## ? Verificacion del Proyecto
 
-Para verificar que todo está correcto:
+Para verificar que todo esta correcto:
 
-1. ? Compilación exitosa: `dotnet build`
+1. ? Compilacion exitosa: `dotnet build`
 2. ? Base de datos inicializada
-3. ? API ejecutándose: `dotnet run`
+3. ? API ejecutandose: `dotnet run`
 4. ? Swagger accesible: `https://localhost:5001/swagger`
 5. ? Login funcional desde Swagger
 6. ? Tests automatizados pasando: `.\test-api.ps1`
 
-## ?? Próximos Pasos
+## ?? Proximos Pasos
 
 1. **Inicializar la base de datos**: Ejecuta `.\setup-database.ps1`
 2. **Iniciar la API**: Ejecuta `dotnet run`
 3. **Probar en Swagger**: Abre `https://localhost:5001/swagger`
-4. **Configurar MAUI**: Sigue la guía en `CONFIGURACION_MAUI.md`
-5. **Probar integración**: Inicia sesión desde la app MAUI
+4. **Configurar MAUI**: Sigue la guia en `CONFIGURACION_MAUI.md`
+5. **Probar integracion**: Inicia sesion desde la app MAUI
 
 ## ?? Soporte
 
-- **Documentación técnica**: Ver archivos `.md` en `CheckadorAPI/`
-- **Swagger UI**: Documentación interactiva en `/swagger`
-- **Ejemplos de código**: Ver `EXAMPLES.md`
+- **Documentacion tecnica**: Ver archivos `.md` en `CheckadorAPI/`
+- **Swagger UI**: Documentacion interactiva en `/swagger`
+- **Ejemplos de codigo**: Ver `EXAMPLES.md`
 
 ## ?? ¡Todo Listo!
 
-El proyecto está **100% funcional** y listo para usar. Todos los endpoints que necesita tu aplicación MAUI están implementados y documentados.
+El proyecto esta **100% funcional** y listo para usar. Todos los endpoints que necesita tu aplicacion MAUI estan implementados y documentados.
 
 Para comenzar, simplemente:
 ```bash
@@ -238,7 +238,7 @@ Luego abre tu navegador en `https://localhost:5001/swagger` para explorar la API
 
 ---
 
-**Fecha de creación**: Febrero 2024  
-**Versión**: 1.0.0  
+**Fecha de creacion**: Febrero 2024  
+**Version**: 1.0.0  
 **Framework**: .NET 9.0  
-**Estado**: ? Producción Ready
+**Estado**: ? Produccion Ready
