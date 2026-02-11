@@ -87,14 +87,14 @@ namespace CheckadorAPI.Migrations
                 columns: new[] { "Id", "CreatedAt", "Email", "FullName", "IsActive", "LastLogin", "PasswordHash", "Role", "Username" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2026, 2, 10, 8, 6, 27, 473, DateTimeKind.Utc).AddTicks(3293), "admin@checador.com", "Administrador del Sistema", true, null, "$2a$11$uzIZjmpLKvUGzlrarOABUuD9pY8J0OxYgmo3ljlw.z.9cOObFJ1SG", "Administrador", "admin" },
-                    { 2, new DateTime(2026, 2, 10, 8, 6, 27, 473, DateTimeKind.Utc).AddTicks(3757), "usuario1@checador.com", "Usuario de Prueba", true, null, "$2a$11$XUkKo2z5oy5GfXyH843.Yu2d3RzAeVwBd80gq1qAHsd64lV7RJJlC", "Usuario", "usuario1" }
+                    { 1, new DateTime(2026, 2, 11, 2, 36, 14, 439, DateTimeKind.Utc).AddTicks(1942), "admin@checador.com", "Administrador del Sistema", true, null, "$2a$11$b5Se71LKv3E79PhL1Ll5EemKIZJueVZ.UOJaewZMz0zDQNym/uJLK", "Administrador", "admin" },
+                    { 2, new DateTime(2026, 2, 11, 2, 36, 14, 439, DateTimeKind.Utc).AddTicks(2369), "usuario1@checador.com", "Usuario de Prueba", true, null, "$2a$11$fnGIB.c58RihSeIhV6GsYu26iJk2XbwyRoGCqKf67I...QMsZC51S", "Usuario", "usuario1" }
                 });
 
             migrationBuilder.InsertData(
                 table: "GeofenceConfigs",
                 columns: new[] { "Id", "CenterLatitude", "CenterLongitude", "LocationName", "RadiusInMeters", "UpdatedAt", "UserId" },
-                values: new object[] { 1, 19.432607999999998, -99.133208999999994, "Oficina Central", 200.0, new DateTime(2026, 2, 10, 8, 6, 27, 474, DateTimeKind.Utc).AddTicks(1443), 2 });
+                values: new object[] { 1, 19.432607999999998, -99.133208999999994, "Oficina Central", 200.0, new DateTime(2026, 2, 11, 2, 36, 14, 439, DateTimeKind.Utc).AddTicks(9798), 2 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Attendances_UserId",

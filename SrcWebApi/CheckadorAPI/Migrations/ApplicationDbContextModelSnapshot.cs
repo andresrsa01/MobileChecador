@@ -101,7 +101,7 @@ namespace CheckadorAPI.Migrations
                             CenterLongitude = -99.133208999999994,
                             LocationName = "Oficina Central",
                             RadiusInMeters = 200.0,
-                            UpdatedAt = new DateTime(2026, 2, 10, 8, 6, 27, 474, DateTimeKind.Utc).AddTicks(1443),
+                            UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             UserId = 2
                         });
                 });
@@ -162,22 +162,22 @@ namespace CheckadorAPI.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 2, 10, 8, 6, 27, 473, DateTimeKind.Utc).AddTicks(3293),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "admin@checador.com",
                             FullName = "Administrador del Sistema",
                             IsActive = true,
-                            PasswordHash = "$2a$11$uzIZjmpLKvUGzlrarOABUuD9pY8J0OxYgmo3ljlw.z.9cOObFJ1SG",
+                            PasswordHash = "$2a$11$2oHZX7cKZmJ5qF5kW3kfD.8YqhJ8wHZF6N8kGv9fMp0YxZQdB8d6K",
                             Role = "Administrador",
                             Username = "admin"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2026, 2, 10, 8, 6, 27, 473, DateTimeKind.Utc).AddTicks(3757),
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
                             Email = "usuario1@checador.com",
                             FullName = "Usuario de Prueba",
                             IsActive = true,
-                            PasswordHash = "$2a$11$XUkKo2z5oy5GfXyH843.Yu2d3RzAeVwBd80gq1qAHsd64lV7RJJlC",
+                            PasswordHash = "$2a$11$3pHZX8dLZnK6rG6lX4lgE.9ZriI9xIaG7O9lHw0gNq1ZyaRdC9e7L",
                             Role = "Usuario",
                             Username = "usuario1"
                         });

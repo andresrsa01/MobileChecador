@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CheckadorAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260210080629_InitialCreate")]
+    [Migration("20260211023615_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -104,7 +104,7 @@ namespace CheckadorAPI.Migrations
                             CenterLongitude = -99.133208999999994,
                             LocationName = "Oficina Central",
                             RadiusInMeters = 200.0,
-                            UpdatedAt = new DateTime(2026, 2, 10, 8, 6, 27, 474, DateTimeKind.Utc).AddTicks(1443),
+                            UpdatedAt = new DateTime(2026, 2, 11, 2, 36, 14, 439, DateTimeKind.Utc).AddTicks(9798),
                             UserId = 2
                         });
                 });
@@ -165,22 +165,22 @@ namespace CheckadorAPI.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2026, 2, 10, 8, 6, 27, 473, DateTimeKind.Utc).AddTicks(3293),
+                            CreatedAt = new DateTime(2026, 2, 11, 2, 36, 14, 439, DateTimeKind.Utc).AddTicks(1942),
                             Email = "admin@checador.com",
                             FullName = "Administrador del Sistema",
                             IsActive = true,
-                            PasswordHash = "$2a$11$uzIZjmpLKvUGzlrarOABUuD9pY8J0OxYgmo3ljlw.z.9cOObFJ1SG",
+                            PasswordHash = "$2a$11$b5Se71LKv3E79PhL1Ll5EemKIZJueVZ.UOJaewZMz0zDQNym/uJLK",
                             Role = "Administrador",
                             Username = "admin"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2026, 2, 10, 8, 6, 27, 473, DateTimeKind.Utc).AddTicks(3757),
+                            CreatedAt = new DateTime(2026, 2, 11, 2, 36, 14, 439, DateTimeKind.Utc).AddTicks(2369),
                             Email = "usuario1@checador.com",
                             FullName = "Usuario de Prueba",
                             IsActive = true,
-                            PasswordHash = "$2a$11$XUkKo2z5oy5GfXyH843.Yu2d3RzAeVwBd80gq1qAHsd64lV7RJJlC",
+                            PasswordHash = "$2a$11$fnGIB.c58RihSeIhV6GsYu26iJk2XbwyRoGCqKf67I...QMsZC51S",
                             Role = "Usuario",
                             Username = "usuario1"
                         });

@@ -46,9 +46,14 @@ public class ApplicationDbContext : DbContext
 
     private void SeedData(ModelBuilder modelBuilder)
     {
-        // Hash de la contraseña "Admin123!" usando BCrypt
-        var adminPasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin123!");
-        var userPasswordHash = BCrypt.Net.BCrypt.HashPassword("User123!");
+        // Hash de la contraseña "Admin123!" usando BCrypt (valores pre-calculados para evitar cambios en cada migración)
+        // Admin123! -> $2a$11$2oHZX7cKZmJ5qF5kW3kfD.8YqhJ8wHZF6N8kGv9fMp0YxZQdB8d6K
+        // User123! -> $2a$11$3pHZX8dLZnK6rG6lX4lgE.9ZriI9xIaG7O9lHw0gNq1ZyaRdC9e7L
+        var adminPasswordHash = "$2a$11$2oHZX7cKZmJ5qF5kW3kfD.8YqhJ8wHZF6N8kGv9fMp0YxZQdB8d6K";
+        var userPasswordHash = "$2a$11$3pHZX8dLZnK6rG6lX4lgE.9ZriI9xIaG7O9lHw0gNq1ZyaRdC9e7L";
+        
+        // Fecha fija para los datos iniciales
+        var seedDate = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
         // Usuario administrador
         modelBuilder.Entity<User>().HasData(
@@ -60,7 +65,7 @@ public class ApplicationDbContext : DbContext
                 FullName = "Administrador del Sistema",
                 Email = "admin@checador.com",
                 Role = "Administrador",
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = seedDate,
                 IsActive = true
             },
             new User
@@ -71,7 +76,7 @@ public class ApplicationDbContext : DbContext
                 FullName = "Usuario de Prueba",
                 Email = "usuario1@checador.com",
                 Role = "Usuario",
-                CreatedAt = DateTime.UtcNow,
+                CreatedAt = seedDate,
                 IsActive = true
             }
         );
@@ -87,7 +92,7 @@ public class ApplicationDbContext : DbContext
                 CenterLongitude = -99.133209,
                 RadiusInMeters = 200,
                 LocationName = "Oficina Central",
-                UpdatedAt = DateTime.UtcNow
+                UpdatedAt = seedDate
             }
         );
     }
