@@ -31,7 +31,8 @@ public class AttendanceController : ControllerBase
         {
             // Verificar que el usuario existe
             var user = await _context.Users
-                .Include(u => u.GeofenceConfig)
+                .Include(u => u.Workplace)
+                    .ThenInclude(w => w.GeofenceConfig)
                 .FirstOrDefaultAsync(u => u.Id == request.UserId);
 
             if (user == null)
@@ -43,25 +44,36 @@ public class AttendanceController : ControllerBase
                 });
             }
 
-            // Verificar geofence
-            if (user.GeofenceConfig == null)
+            // Verificar que el usuario tenga un workplace asignado
+            if (user.Workplace == null)
             {
-                _logger.LogWarning("Usuario {UserId} no tiene configuración de geofence", request.UserId);
+                _logger.LogWarning("Usuario {UserId} no tiene workplace asignado", request.UserId);
                 return Ok(new AttendanceResponse
                 {
                     Success = false,
-                    Message = "No hay configuración de geofence para este usuario"
+                    Message = "No tienes un workplace asignado. Contacta al administrador"
+                });
+            }
+
+            // Verificar geofence
+            if (user.Workplace.GeofenceConfig == null)
+            {
+                _logger.LogWarning("Workplace {WorkplaceId} no tiene configuración de geofence", user.WorkplaceId);
+                return Ok(new AttendanceResponse
+                {
+                    Success = false,
+                    Message = "No hay configuración de geofence para tu workplace"
                 });
             }
 
             var distance = GeofenceHelper.CalculateDistance(
                 request.Latitude,
                 request.Longitude,
-                user.GeofenceConfig.CenterLatitude,
-                user.GeofenceConfig.CenterLongitude
+                user.Workplace.GeofenceConfig.CenterLatitude,
+                user.Workplace.GeofenceConfig.CenterLongitude
             );
 
-            var isWithinGeofence = distance <= user.GeofenceConfig.RadiusInMeters;
+            var isWithinGeofence = distance <= user.Workplace.GeofenceConfig.RadiusInMeters;
 
             if (!isWithinGeofence)
             {
@@ -77,6 +89,7 @@ public class AttendanceController : ControllerBase
                     Message = $"Ubicación fuera del área permitida. Distancia: {distance:F0}m"
                 });
             }
+
 
             // Verificar si ya registró asistencia hoy
             var today = DateTime.UtcNow.Date;

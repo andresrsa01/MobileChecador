@@ -9,8 +9,9 @@ public class GeofenceConfig
     [Key]
     public int Id { get; set; }
 
+    // Ahora pertenece a un Workplace en lugar de un User
     [Required]
-    public int UserId { get; set; }
+    public int WorkplaceId { get; set; }
 
     [Required]
     public double CenterLatitude { get; set; }
@@ -21,13 +22,10 @@ public class GeofenceConfig
     [Required]
     public double RadiusInMeters { get; set; } = 100;
 
-    [Required]
-    [MaxLength(200)]
-    public string LocationName { get; set; } = string.Empty;
-
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
 
     // Navegación
-    [ForeignKey(nameof(UserId))]
-    public virtual User User { get; set; } = null!;
+    [ForeignKey(nameof(WorkplaceId))]
+    public virtual Workplace Workplace { get; set; } = null!;
 }
+

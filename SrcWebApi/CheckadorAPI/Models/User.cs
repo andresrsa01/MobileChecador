@@ -30,6 +30,9 @@ public class User
     [MaxLength(50)]
     public string Role { get; set; } = "Usuario"; // "Administrador" o "Usuario"
 
+    // Solo los usuarios de tipo "Usuario" deben tener un WorkplaceId
+    public int? WorkplaceId { get; set; }
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public DateTime? LastLogin { get; set; }
@@ -38,5 +41,8 @@ public class User
 
     // Navegación
     public virtual ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
-    public virtual GeofenceConfig? GeofenceConfig { get; set; }
+    
+    [ForeignKey(nameof(WorkplaceId))]
+    public virtual Workplace? Workplace { get; set; }
 }
+

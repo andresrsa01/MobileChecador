@@ -4,20 +4,18 @@ namespace CheckadorAPI.DTOs;
 
 public class CreateGeofenceRequest
 {
-    [Required]
-    public int UserId { get; set; }
+    [Required(ErrorMessage = "El ID del workplace es requerido")]
+    public int WorkplaceId { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "La latitud del centro es requerida")]
     public double CenterLatitude { get; set; }
 
-    [Required]
+    [Required(ErrorMessage = "La longitud del centro es requerida")]
     public double CenterLongitude { get; set; }
 
-    [Required]
-    [Range(10, 10000)]
+    [Required(ErrorMessage = "El radio es requerido")]
+    [Range(10, 10000, ErrorMessage = "El radio debe estar entre 10 y 10000 metros")]
     public double RadiusInMeters { get; set; }
-
-    [Required]
-    [MaxLength(200)]
-    public string LocationName { get; set; } = string.Empty;
 }
+
+

@@ -64,8 +64,10 @@ public class AuthController : ControllerBase
             }
 
             var user = await _context.Users
-                .Include(u => u.GeofenceConfig)
+                .Include(u => u.Workplace)
+                    .ThenInclude(w => w.GeofenceConfig)
                 .FirstOrDefaultAsync(u => u.Username == request.Username);
+
 
             if (user == null)
             {
@@ -118,21 +120,22 @@ public class AuthController : ControllerBase
                     FullName = user.FullName,
                     Email = user.Email,
                     Role = user.Role,
+                    WorkplaceId = user.WorkplaceId,
+                    WorkplaceName = user.Workplace?.Name,
                     CreatedAt = user.CreatedAt,
                     LastLogin = user.LastLogin,
                     IsActive = user.IsActive
                 },
-                GeofenceConfig = user.GeofenceConfig != null ? new GeofenceConfigDto
+                GeofenceConfig = user.Workplace?.GeofenceConfig != null ? new GeofenceConfigDto
                 {
-                    Id = user.GeofenceConfig.Id,
-                    UserId = user.GeofenceConfig.UserId,
-                    CenterLatitude = user.GeofenceConfig.CenterLatitude,
-                    CenterLongitude = user.GeofenceConfig.CenterLongitude,
-                    RadiusInMeters = user.GeofenceConfig.RadiusInMeters,
-                    LocationName = user.GeofenceConfig.LocationName,
-                    UpdatedAt = user.GeofenceConfig.UpdatedAt
+                    Id = user.Workplace.GeofenceConfig.Id,
+                    CenterLatitude = user.Workplace.GeofenceConfig.CenterLatitude,
+                    CenterLongitude = user.Workplace.GeofenceConfig.CenterLongitude,
+                    RadiusInMeters = user.Workplace.GeofenceConfig.RadiusInMeters,
+                    UpdatedAt = user.Workplace.GeofenceConfig.UpdatedAt
                 } : null
             });
+
         }
         catch (Exception ex)
         {

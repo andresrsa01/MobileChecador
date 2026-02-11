@@ -13,6 +13,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Attendance> Attendances { get; set; } = null!;
     public DbSet<GeofenceConfig> GeofenceConfigs { get; set; } = null!;
+    public DbSet<Workplace> Workplaces { get; set; } = null!;
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -34,11 +36,20 @@ public class ApplicationDbContext : DbContext
             .HasForeignKey(a => a.UserId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        // GeofenceConfig ahora pertenece a Workplace
         modelBuilder.Entity<GeofenceConfig>()
-            .HasOne(g => g.User)
-            .WithOne(u => u.GeofenceConfig)
-            .HasForeignKey<GeofenceConfig>(g => g.UserId)
+            .HasOne(g => g.Workplace)
+            .WithOne(w => w.GeofenceConfig)
+            .HasForeignKey<GeofenceConfig>(g => g.WorkplaceId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        // User puede pertenecer a un Workplace (solo usuarios, no administradores)
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Workplace)
+            .WithMany(w => w.Users)
+            .HasForeignKey(u => u.WorkplaceId)
+            .OnDelete(DeleteBehavior.Restrict);
+
 
         // Datos iniciales (seed)
         SeedData(modelBuilder);
@@ -55,7 +66,21 @@ public class ApplicationDbContext : DbContext
         // Fecha fija para los datos iniciales
         var seedDate = new DateTime(2024, 1, 1, 0, 0, 0, DateTimeKind.Utc);
 
-        // Usuario administrador
+        // Workplace de ejemplo
+        modelBuilder.Entity<Workplace>().HasData(
+            new Workplace
+            {
+                Id = 1,
+                Name = "Oficina Central",
+                Address = "Av. Principal 123, Col. Centro",
+                Phone = "5555551234",
+                Zip = "01000",
+                CreatedAt = seedDate,
+                IsActive = true
+            }
+        );
+
+        // Usuario administrador (sin workplace)
         modelBuilder.Entity<User>().HasData(
             new User
             {
@@ -65,6 +90,7 @@ public class ApplicationDbContext : DbContext
                 FullName = "Administrador del Sistema",
                 Email = "admin@checador.com",
                 Role = "Administrador",
+                WorkplaceId = null, // Administrador no tiene workplace
                 CreatedAt = seedDate,
                 IsActive = true
             },
@@ -76,24 +102,26 @@ public class ApplicationDbContext : DbContext
                 FullName = "Usuario de Prueba",
                 Email = "usuario1@checador.com",
                 Role = "Usuario",
+                WorkplaceId = 1, // Usuario vinculado a workplace
                 CreatedAt = seedDate,
                 IsActive = true
             }
         );
 
-        // Geofence para el usuario de prueba
+        // Geofence para el workplace
         // Coordenadas de ejemplo (CDMX - Zócalo)
         modelBuilder.Entity<GeofenceConfig>().HasData(
             new GeofenceConfig
             {
                 Id = 1,
-                UserId = 2,
+                WorkplaceId = 1,
                 CenterLatitude = 19.432608,
                 CenterLongitude = -99.133209,
                 RadiusInMeters = 200,
-                LocationName = "Oficina Central",
                 UpdatedAt = seedDate
             }
         );
+
     }
+
 }

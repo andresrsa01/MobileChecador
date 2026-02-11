@@ -72,23 +72,18 @@ namespace CheckadorAPI.Migrations
                     b.Property<double>("CenterLongitude")
                         .HasColumnType("float");
 
-                    b.Property<string>("LocationName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.Property<double>("RadiusInMeters")
                         .HasColumnType("float");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("WorkplaceId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
+                    b.HasIndex("WorkplaceId")
                         .IsUnique();
 
                     b.ToTable("GeofenceConfigs");
@@ -99,10 +94,9 @@ namespace CheckadorAPI.Migrations
                             Id = 1,
                             CenterLatitude = 19.432607999999998,
                             CenterLongitude = -99.133208999999994,
-                            LocationName = "Oficina Central",
                             RadiusInMeters = 200.0,
                             UpdatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 2
+                            WorkplaceId = 1
                         });
                 });
 
@@ -148,6 +142,9 @@ namespace CheckadorAPI.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<int?>("WorkplaceId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
@@ -155,6 +152,8 @@ namespace CheckadorAPI.Migrations
 
                     b.HasIndex("Username")
                         .IsUnique();
+
+                    b.HasIndex("WorkplaceId");
 
                     b.ToTable("Users");
 
@@ -179,7 +178,59 @@ namespace CheckadorAPI.Migrations
                             IsActive = true,
                             PasswordHash = "$2a$11$3pHZX8dLZnK6rG6lX4lgE.9ZriI9xIaG7O9lHw0gNq1ZyaRdC9e7L",
                             Role = "Usuario",
-                            Username = "usuario1"
+                            Username = "usuario1",
+                            WorkplaceId = 1
+                        });
+                });
+
+            modelBuilder.Entity("CheckadorAPI.Models.Workplace", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Zip")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Workplaces");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Av. Principal 123, Col. Centro",
+                            CreatedAt = new DateTime(2024, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            Name = "Oficina Central",
+                            Phone = "5555551234",
+                            Zip = "01000"
                         });
                 });
 
@@ -196,20 +247,35 @@ namespace CheckadorAPI.Migrations
 
             modelBuilder.Entity("CheckadorAPI.Models.GeofenceConfig", b =>
                 {
-                    b.HasOne("CheckadorAPI.Models.User", "User")
+                    b.HasOne("CheckadorAPI.Models.Workplace", "Workplace")
                         .WithOne("GeofenceConfig")
-                        .HasForeignKey("CheckadorAPI.Models.GeofenceConfig", "UserId")
+                        .HasForeignKey("CheckadorAPI.Models.GeofenceConfig", "WorkplaceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("User");
+                    b.Navigation("Workplace");
+                });
+
+            modelBuilder.Entity("CheckadorAPI.Models.User", b =>
+                {
+                    b.HasOne("CheckadorAPI.Models.Workplace", "Workplace")
+                        .WithMany("Users")
+                        .HasForeignKey("WorkplaceId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Workplace");
                 });
 
             modelBuilder.Entity("CheckadorAPI.Models.User", b =>
                 {
                     b.Navigation("Attendances");
+                });
 
+            modelBuilder.Entity("CheckadorAPI.Models.Workplace", b =>
+                {
                     b.Navigation("GeofenceConfig");
+
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

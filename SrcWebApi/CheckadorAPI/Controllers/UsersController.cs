@@ -47,6 +47,7 @@ public class UsersController : ControllerBase
         try
         {
             var users = await _context.Users
+                .Include(u => u.Workplace)
                 .Select(u => new UserDto
                 {
                     Id = u.Id,
@@ -54,6 +55,8 @@ public class UsersController : ControllerBase
                     FullName = u.FullName,
                     Email = u.Email,
                     Role = u.Role,
+                    WorkplaceId = u.WorkplaceId,
+                    WorkplaceName = u.Workplace != null ? u.Workplace.Name : null,
                     CreatedAt = u.CreatedAt,
                     LastLogin = u.LastLogin,
                     IsActive = u.IsActive
@@ -65,20 +68,23 @@ public class UsersController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error al obtener usuarios");
-            return StatusCode(500, "Error al obtener usuarios");
+            return StatusCode(500, new { message = "Error al obtener usuarios" });
         }
     }
+
 
     [HttpGet("{id}")]
     public async Task<ActionResult<UserDto>> GetUser(int id)
     {
         try
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users
+                .Include(u => u.Workplace)
+                .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
             {
-                return NotFound("Usuario no encontrado");
+                return NotFound(new { message = "Usuario no encontrado" });
             }
 
             var userDto = new UserDto
@@ -88,6 +94,8 @@ public class UsersController : ControllerBase
                 FullName = user.FullName,
                 Email = user.Email,
                 Role = user.Role,
+                WorkplaceId = user.WorkplaceId,
+                WorkplaceName = user.Workplace?.Name,
                 CreatedAt = user.CreatedAt,
                 LastLogin = user.LastLogin,
                 IsActive = user.IsActive
@@ -98,9 +106,10 @@ public class UsersController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error al obtener usuario {UserId}", id);
-            return StatusCode(500, "Error al obtener usuario");
+            return StatusCode(500, new { message = "Error al obtener usuario" });
         }
     }
+
 
     [HttpPost]
     [Authorize(Roles = "Administrador")]
@@ -111,18 +120,40 @@ public class UsersController : ControllerBase
             // Validar que el rol sea válido
             if (request.Role != "Administrador" && request.Role != "Usuario")
             {
-                return BadRequest("El rol debe ser 'Administrador' o 'Usuario'");
+                return BadRequest(new { message = "El rol debe ser 'Administrador' o 'Usuario'" });
+            }
+
+            // Validar que los usuarios tengan un workplace asignado (excepto administradores)
+            if (request.Role == "Usuario" && !request.WorkplaceId.HasValue)
+            {
+                return BadRequest(new { message = "Los usuarios deben tener un workplace asignado" });
+            }
+
+            // Validar que los administradores no tengan workplace
+            if (request.Role == "Administrador" && request.WorkplaceId.HasValue)
+            {
+                return BadRequest(new { message = "Los administradores no pueden tener un workplace asignado" });
+            }
+
+            // Verificar si el workplace existe (si se proporcionó)
+            if (request.WorkplaceId.HasValue)
+            {
+                var workplaceExists = await _context.Workplaces.AnyAsync(w => w.Id == request.WorkplaceId.Value && w.IsActive);
+                if (!workplaceExists)
+                {
+                    return BadRequest(new { message = "El workplace especificado no existe o no está activo" });
+                }
             }
 
             // Verificar si el usuario ya existe
             if (await _context.Users.AnyAsync(u => u.Username == request.Username))
             {
-                return BadRequest("El nombre de usuario ya existe");
+                return BadRequest(new { message = "El nombre de usuario ya existe" });
             }
 
             if (await _context.Users.AnyAsync(u => u.Email == request.Email))
             {
-                return BadRequest("El correo electrónico ya está registrado");
+                return BadRequest(new { message = "El correo electrónico ya está registrado" });
             }
 
             // Hash de la contraseña
@@ -135,12 +166,16 @@ public class UsersController : ControllerBase
                 FullName = request.FullName,
                 Email = request.Email,
                 Role = request.Role,
+                WorkplaceId = request.WorkplaceId,
                 CreatedAt = DateTime.UtcNow,
                 IsActive = true
             };
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+
+            // Cargar el workplace para el DTO
+            await _context.Entry(user).Reference(u => u.Workplace).LoadAsync();
 
             _logger.LogInformation("Usuario creado exitosamente: {Username}", user.Username);
 
@@ -151,6 +186,8 @@ public class UsersController : ControllerBase
                 FullName = user.FullName,
                 Email = user.Email,
                 Role = user.Role,
+                WorkplaceId = user.WorkplaceId,
+                WorkplaceName = user.Workplace?.Name,
                 CreatedAt = user.CreatedAt,
                 LastLogin = user.LastLogin,
                 IsActive = user.IsActive
@@ -161,9 +198,10 @@ public class UsersController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error al crear usuario");
-            return StatusCode(500, "Error al crear usuario");
+            return StatusCode(500, new { message = "Error al crear usuario" });
         }
     }
+
 
     [HttpPut("{id}")]
     [Authorize(Roles = "Administrador")]
@@ -171,11 +209,13 @@ public class UsersController : ControllerBase
     {
         try
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.Users
+                .Include(u => u.Workplace)
+                .FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
             {
-                return NotFound("Usuario no encontrado");
+                return NotFound(new { message = "Usuario no encontrado" });
             }
 
             if (!string.IsNullOrWhiteSpace(request.FullName))
@@ -185,7 +225,7 @@ public class UsersController : ControllerBase
             {
                 if (await _context.Users.AnyAsync(u => u.Email == request.Email && u.Id != id))
                 {
-                    return BadRequest("El correo electrónico ya está registrado");
+                    return BadRequest(new { message = "El correo electrónico ya está registrado" });
                 }
                 user.Email = request.Email;
             }
@@ -202,6 +242,31 @@ public class UsersController : ControllerBase
                 (request.Role == "Administrador" || request.Role == "Usuario"))
             {
                 user.Role = request.Role;
+                
+                // Si cambia a Administrador, quitar el workplace
+                if (request.Role == "Administrador")
+                {
+                    user.WorkplaceId = null;
+                }
+            }
+
+            // Actualizar workplace si se proporciona
+            if (request.WorkplaceId.HasValue)
+            {
+                // Verificar que no sea administrador
+                if (user.Role == "Administrador")
+                {
+                    return BadRequest(new { message = "Los administradores no pueden tener un workplace asignado" });
+                }
+
+                // Verificar que el workplace existe
+                var workplaceExists = await _context.Workplaces.AnyAsync(w => w.Id == request.WorkplaceId.Value && w.IsActive);
+                if (!workplaceExists)
+                {
+                    return BadRequest(new { message = "El workplace especificado no existe o no está activo" });
+                }
+
+                user.WorkplaceId = request.WorkplaceId;
             }
 
             await _context.SaveChangesAsync();
@@ -213,9 +278,10 @@ public class UsersController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error al actualizar usuario {UserId}", id);
-            return StatusCode(500, "Error al actualizar usuario");
+            return StatusCode(500, new { message = "Error al actualizar usuario" });
         }
     }
+
 
     [HttpDelete("{id}")]
     [Authorize(Roles = "Administrador")]
@@ -227,14 +293,14 @@ public class UsersController : ControllerBase
 
             if (user == null)
             {
-                return NotFound("Usuario no encontrado");
+                return NotFound(new { message = "Usuario no encontrado" });
             }
 
             // No permitir eliminar el usuario actual
             var currentUserId = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (currentUserId == id.ToString())
             {
-                return BadRequest("No puedes eliminar tu propia cuenta");
+                return BadRequest(new { message = "No puedes eliminar tu propia cuenta" });
             }
 
             _context.Users.Remove(user);
@@ -247,7 +313,8 @@ public class UsersController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error al eliminar usuario {UserId}", id);
-            return StatusCode(500, "Error al eliminar usuario");
+            return StatusCode(500, new { message = "Error al eliminar usuario" });
         }
     }
+
 }
