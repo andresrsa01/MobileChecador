@@ -42,17 +42,19 @@ public class AuthService : IAuthService
                 // Guardar usuario en base de datos local
                 if (_currentUser != null)
                 {
-                    await _databaseService.SaveUserAsync(_currentUser);
-                    await _databaseService.UpdateLastLoginAsync(_currentUser.Id);
+                    // Actualizar LastLogin antes de guardar
+                    _currentUser.LastLogin = DateTime.Now;
+                    
+                    var saveResult = await _databaseService.SaveUserAsync(_currentUser);
+                    System.Diagnostics.Debug.WriteLine($"[AuthService] Usuario guardado con resultado: {saveResult}, ID={_currentUser.Id}, Username={_currentUser.Username}");
                     
                     // Guardar geofence si viene en la respuesta
                     if (response.GeofenceConfig != null)
                     {
-                        await _databaseService.SaveGeofenceConfigAsync(response.GeofenceConfig);
+                        System.Diagnostics.Debug.WriteLine($"[AuthService] Guardando GeofenceConfig: Lat={response.GeofenceConfig.CenterLatitude}, Lng={response.GeofenceConfig.CenterLongitude}, Radius={response.GeofenceConfig.RadiusInMeters}");
+                        var result = await _databaseService.SaveGeofenceConfigAsync(response.GeofenceConfig);
+                        System.Diagnostics.Debug.WriteLine($"[AuthService] GeofenceConfig guardado con resultado: {result}");
                     }
-                    
-                    // Recargar usuario con LastLogin actualizado
-                    _currentUser = await _databaseService.GetUserByUsernameAsync(username);
                 }
 
                 // Guardar datos en preferences
@@ -63,18 +65,18 @@ public class AuthService : IAuthService
         }
         catch(Exception ex)
         {
+            System.Diagnostics.Debug.WriteLine($"[AuthService] Error en LoginAsync: {ex.Message}");
+            
             // Si falla la API, intentar login local
             var user = await _databaseService.GetUserByUsernameAsync(username);
             
             if (user != null && user.Password == password && user.IsActive)
             {
-                _currentUser = user;
-                
                 // Actualizar ultimo login
-                await _databaseService.UpdateLastLoginAsync(user.Id);
+                user.LastLogin = DateTime.Now;
+                await _databaseService.SaveUserAsync(user);
                 
-                // Recargar usuario con LastLogin actualizado
-                _currentUser = await _databaseService.GetUserByUsernameAsync(username);
+                _currentUser = user;
                 
                 // Guardar datos en preferences
                 SaveUserDataToPreferences(_currentUser, null);
@@ -95,17 +97,29 @@ public class AuthService : IAuthService
         }
     }
 
-    public void Logout()
+    public async Task LogoutAsync()
     {
+        System.Diagnostics.Debug.WriteLine("[AuthService] Iniciando logout y limpieza de datos");
+        
+        // Limpiar variables en memoria
         _currentUser = null;
         _token = null;
+        
+        // Limpiar Preferences
         Preferences.Remove(AUTH_TOKEN_KEY);
         Preferences.Remove(USER_ID_KEY);
         Preferences.Remove(USER_DATA_KEY);
         
-        // Opcional: Limpiar geofence al hacer logout
-        // if (_currentUser != null)
-        //     await _databaseService.DeleteGeofenceConfigByUserIdAsync(_currentUser.Id);
+        // Limpiar completamente la base de datos
+        try
+        {
+            await _databaseService.ClearAllDataAsync();
+            System.Diagnostics.Debug.WriteLine("[AuthService] Logout completado exitosamente");
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[AuthService] Error durante logout: {ex.Message}");
+        }
     }
 
     public bool IsAuthenticated()
@@ -195,8 +209,22 @@ public class AuthService : IAuthService
     {
         var user = await GetCurrentUserAsync();
         if (user == null)
+        {
+            System.Diagnostics.Debug.WriteLine($"[AuthService] GetGeofenceConfigAsync - Usuario no autenticado");
             return null;
-            
-        return await _databaseService.GetGeofenceConfigAsync();
+        }
+        
+        var config = await _databaseService.GetGeofenceConfigAsync();
+        
+        if (config != null)
+        {
+            System.Diagnostics.Debug.WriteLine($"[AuthService] GetGeofenceConfigAsync - Config encontrado: Id={config.Id}, Lat={config.CenterLatitude}, Lng={config.CenterLongitude}, Radius={config.RadiusInMeters}");
+        }
+        else
+        {
+            System.Diagnostics.Debug.WriteLine($"[AuthService] GetGeofenceConfigAsync - Config NO encontrado en BD");
+        }
+        
+        return config;
     }
 }

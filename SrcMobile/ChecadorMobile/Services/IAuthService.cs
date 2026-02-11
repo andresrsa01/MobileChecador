@@ -5,7 +5,7 @@ namespace MauiAppChecador.Services;
 public interface IAuthService
 {
     Task<LoginResponse> LoginAsync(string username, string password);
-    void Logout();
+    Task LogoutAsync();
     bool IsAuthenticated();
     User? GetCurrentUser();
     Task<User?> GetCurrentUserAsync();

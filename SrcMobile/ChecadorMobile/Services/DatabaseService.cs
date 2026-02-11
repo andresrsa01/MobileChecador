@@ -88,12 +88,19 @@ public class DatabaseService : IDatabaseService
     {
         await InitAsync();
         
-        if (user.Id != 0)
+        // Verificar si el usuario ya existe en la BD local
+        var existingUser = await _database!.Table<User>()
+            .Where(u => u.Id == user.Id)
+            .FirstOrDefaultAsync();
+        
+        if (existingUser != null)
         {
+            // Si existe, actualizar
             return await _database!.UpdateAsync(user);
         }
         else
         {
+            // Si no existe, insertar
             return await _database!.InsertAsync(user);
         }
     }
@@ -115,27 +122,50 @@ public class DatabaseService : IDatabaseService
     {
         await InitAsync();
         
+        System.Diagnostics.Debug.WriteLine($"[DatabaseService] SaveGeofenceConfigAsync - Iniciando guardado");
+        System.Diagnostics.Debug.WriteLine($"[DatabaseService] GeofenceConfig: Lat={geofenceConfig.CenterLatitude}, Lng={geofenceConfig.CenterLongitude}, Radius={geofenceConfig.RadiusInMeters}");
+        
         // Verificar si ya existe un geofence
         var existing = await GetGeofenceConfigAsync();
         
         geofenceConfig.UpdatedAt = DateTime.UtcNow;
         
+        int result;
         if (existing != null)
         {
+            System.Diagnostics.Debug.WriteLine($"[DatabaseService] Actualizando GeofenceConfig existente con Id={existing.Id}");
             geofenceConfig.Id = existing.Id;
-            return await _database!.UpdateAsync(geofenceConfig);
+            result = await _database!.UpdateAsync(geofenceConfig);
+            System.Diagnostics.Debug.WriteLine($"[DatabaseService] Update resultado: {result}");
         }
         else
         {
-            return await _database!.InsertAsync(geofenceConfig);
+            System.Diagnostics.Debug.WriteLine($"[DatabaseService] Insertando nuevo GeofenceConfig");
+            result = await _database!.InsertAsync(geofenceConfig);
+            System.Diagnostics.Debug.WriteLine($"[DatabaseService] Insert resultado: {result}, Id asignado: {geofenceConfig.Id}");
         }
+        
+        return result;
     }
 
     public async Task<GeofenceConfig?> GetGeofenceConfigAsync()
     {
         await InitAsync();
-        return await _database!.Table<GeofenceConfig>()
+        System.Diagnostics.Debug.WriteLine($"[DatabaseService] GetGeofenceConfigAsync - Buscando config en BD");
+        
+        var config = await _database!.Table<GeofenceConfig>()
             .FirstOrDefaultAsync();
+        
+        if (config != null)
+        {
+            System.Diagnostics.Debug.WriteLine($"[DatabaseService] GetGeofenceConfigAsync - Config encontrado: Id={config.Id}");
+        }
+        else
+        {
+            System.Diagnostics.Debug.WriteLine($"[DatabaseService] GetGeofenceConfigAsync - Config NO encontrado");
+        }
+        
+        return config;
     }
 
     public async Task<int> DeleteGeofenceConfigAsync()
@@ -147,5 +177,29 @@ public class DatabaseService : IDatabaseService
             return await _database!.DeleteAsync(config);
         }
         return 0;
+    }
+    
+    public async Task ClearAllDataAsync()
+    {
+        await InitAsync();
+        
+        System.Diagnostics.Debug.WriteLine("[DatabaseService] Iniciando limpieza completa de la base de datos");
+        
+        try
+        {
+            // Eliminar todos los registros de cada tabla
+            await _database!.DeleteAllAsync<User>();
+            await _database!.DeleteAllAsync<GeofenceConfig>();
+            
+            System.Diagnostics.Debug.WriteLine("[DatabaseService] Base de datos limpiada exitosamente");
+            
+            // Recrear usuario demo después de limpiar
+            await CreateDemoUserAsync();
+        }
+        catch (Exception ex)
+        {
+            System.Diagnostics.Debug.WriteLine($"[DatabaseService] Error al limpiar base de datos: {ex.Message}");
+            throw;
+        }
     }
 }

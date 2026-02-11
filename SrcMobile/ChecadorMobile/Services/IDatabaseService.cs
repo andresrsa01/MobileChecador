@@ -17,4 +17,7 @@ public interface IDatabaseService
     Task<int> SaveGeofenceConfigAsync(GeofenceConfig geofenceConfig);
     Task<GeofenceConfig?> GetGeofenceConfigAsync();
     Task<int> DeleteGeofenceConfigAsync();
+    
+    // Database cleanup
+    Task ClearAllDataAsync();
 }

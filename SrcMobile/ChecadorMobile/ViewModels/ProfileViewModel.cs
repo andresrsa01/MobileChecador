@@ -61,15 +61,25 @@ public partial class ProfileViewModel : ObservableObject
     private async Task LogoutAsync()
     {
         var result = await Application.Current!.MainPage!.DisplayAlert(
-            "Cerrar Sesion", 
-            "¿Esta seguro que desea cerrar sesion?", 
-            "Si", 
+            "Cerrar Sesión", 
+            "¿Está seguro que desea cerrar sesión?\n\nSe eliminarán todos los datos locales de la aplicación.", 
+            "Sí", 
             "No");
         
         if (result)
         {
-            _authService.Logout();
-            await Shell.Current.GoToAsync("///login");
+            try
+            {
+                await _authService.LogoutAsync();
+                await Shell.Current.GoToAsync("///login");
+            }
+            catch (Exception ex)
+            {
+                await Application.Current!.MainPage!.DisplayAlert(
+                    "Error",
+                    $"Error al cerrar sesión: {ex.Message}",
+                    "OK");
+            }
         }
     }
 }
